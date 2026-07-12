@@ -7,7 +7,7 @@ export const SITE = {
   name: "Catalyst",
   tagline: "The Creative Intelligence Platform",
   description:
-    "Catalyst decodes your product, your customer, and your creative universe — then hands you the exact testing roadmap your Meta ads team should run next.",
+    "Paste your product and audience. Catalyst maps every angle you could run, flags the gaps your competitors miss, and hands your buyer a four-week test plan — before you brief a single creator.",
   url: "https://catalyst.app",
 } as const;
 
@@ -17,10 +17,9 @@ export interface NavLink {
 }
 
 export const NAV_LINKS: readonly NavLink[] = [
-  { label: "Platform", href: "#platform" },
-  { label: "Intelligence", href: "#intelligence" },
-  { label: "Roadmaps", href: "#roadmaps" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Methodology", href: "/#process" },
+  { label: "Analyze", href: "/analyze" },
+  { label: "Pricing", href: "/#pricing" },
 ] as const;
 
 /**

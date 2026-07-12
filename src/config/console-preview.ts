@@ -6,8 +6,7 @@
  * the console swaps from constants to live data with zero UI changes.
  */
 
-/** Testing priority — drives chip color + sort order in the console. */
-export type TestingPriority = "scale" | "test" | "iterate" | "watch";
+import type { TestingPriority } from "@/types/creative-universe";
 
 export interface AnglePreview {
   /** Creative angle name, as a strategist would write it. */
@@ -35,10 +34,5 @@ export const CONSOLE_FOOTER = {
   value: "Mon 09:00",
 } as const;
 
-/** Chip styling per priority — semantic, resolved from design tokens. */
-export const PRIORITY_STYLES: Record<TestingPriority, string> = {
-  scale: "bg-accent-ghost text-accent-bright",
-  test: "bg-data-ghost text-data-bright",
-  iterate: "bg-glass-bright text-ink-secondary",
-  watch: "bg-glass text-ink-tertiary",
-};
+/** Chip styling lives in the shared UI config — one source of truth. */
+export { PRIORITY_STYLES } from "@/config/universe-ui";

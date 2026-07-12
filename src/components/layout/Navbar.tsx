@@ -6,7 +6,7 @@ import { ArrowUpRight, Command } from "lucide-react";
 
 import { NAV_LINKS, SITE } from "@/config/site";
 import { navReveal } from "@/lib/motion/variants";
-import { Button } from "@/components/ui/Button";
+import { Button, ButtonLink } from "@/components/ui/Button";
 
 /* ============================================================================
    <Navbar /> — floating glass command bar.
@@ -24,7 +24,7 @@ export function Navbar(): React.JSX.Element {
       animate="visible"
       className="fixed inset-x-0 top-4 z-50 mx-auto w-[min(1120px,calc(100%-2rem))]"
     >
-      <nav className="glass-panel flex h-14 items-center justify-between rounded-2xl pr-2.5 pl-5">
+      <nav className="glass-nav flex h-14 items-center justify-between rounded-2xl pr-2.5 pl-5">
         {/* Wordmark — logomark is a live "engine" beacon, not a static icon */}
         <Link
           href="/"
@@ -57,10 +57,10 @@ export function Navbar(): React.JSX.Element {
           <Button variant="ghost" size="md" className="hidden sm:inline-flex">
             Sign in
           </Button>
-          <Button variant="primary" size="md">
-            Get access
+          <ButtonLink href="/analyze" variant="primary" size="md">
+            Analyze my store
             <ArrowUpRight className="size-4" strokeWidth={2.25} />
-          </Button>
+          </ButtonLink>
         </div>
       </nav>
     </motion.header>

@@ -1,7 +1,12 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
@@ -9,7 +14,8 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 import { HERO_METRICS, SITE } from "@/config/site";
 import { popItem, riseItem, staggerContainer } from "@/lib/motion/variants";
-import { Button } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/Button";
+import { Parallax } from "@/components/motion/Parallax";
 import { StrategyConsole } from "@/components/marketing/StrategyConsole";
 
 gsap.registerPlugin(SplitText, useGSAP);
@@ -40,7 +46,21 @@ const HEADLINE_REVEAL = {
 
 export function Hero(): React.JSX.Element {
   const headlineRef = useRef<HTMLHeadingElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
+
+  /*
+   * Scroll-scrub recede: as the hero scrolls out, it softly fades, shrinks,
+   * and lifts — the page feels like layered sheets rather than one flat
+   * scroll. GPU transforms only; disabled under reduced motion.
+   */
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const heroOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.25]);
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.965]);
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, -48]);
 
   /*
    * Masked line reveal: SplitText slices the h1 into lines, each wrapped in
@@ -77,8 +97,18 @@ export function Hero(): React.JSX.Element {
   );
 
   return (
-    <section className="relative z-10 mx-auto w-[min(1180px,calc(100%-2rem))] pt-40 pb-24 lg:pt-44">
-      <div className="grid items-center gap-16 lg:grid-cols-12 lg:gap-10">
+    <section
+      ref={sectionRef}
+      className="relative z-10 mx-auto w-[min(1180px,calc(100%-2rem))] pt-40 pb-24 lg:pt-44"
+    >
+      <motion.div
+        style={
+          prefersReducedMotion
+            ? undefined
+            : { opacity: heroOpacity, scale: heroScale, y: heroY }
+        }
+        className="grid items-center gap-16 lg:grid-cols-12 lg:gap-10"
+      >
         {/* ————— Left: the promise ————— */}
         <div className="lg:col-span-7">
           <motion.div
@@ -126,23 +156,25 @@ export function Hero(): React.JSX.Element {
               variants={riseItem}
               className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
             >
-              <Button variant="primary" size="lg">
+              <ButtonLink href="/analyze" variant="primary" size="lg">
                 <Sparkles className="size-4" strokeWidth={2.25} />
                 Analyze my store
-              </Button>
-              <Button variant="glass" size="lg">
-                Watch the engine work
+              </ButtonLink>
+              <ButtonLink href="#process" variant="glass" size="lg">
+                See the methodology
                 <ArrowRight className="size-4" strokeWidth={2.25} />
-              </Button>
+              </ButtonLink>
             </motion.div>
           </motion.div>
         </div>
 
-        {/* ————— Right: the proof ————— */}
+        {/* ————— Right: the proof — rides its own parallax depth ————— */}
         <div className="lg:col-span-5">
-          <StrategyConsole />
+          <Parallax speed={-0.18}>
+            <StrategyConsole />
+          </Parallax>
         </div>
-      </div>
+      </motion.div>
 
       {/* ————— Telemetry strip — outcome proof in machine voice ————— */}
       <motion.div

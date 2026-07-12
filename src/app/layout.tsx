@@ -9,6 +9,7 @@ import "@fontsource/instrument-serif/400-italic.css";
 
 import { SITE } from "@/config/site";
 import { BackgroundLayer } from "@/components/layout/BackgroundLayer";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
 
 import "./globals.css";
 
@@ -54,7 +55,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body className="antialiased">
-        {/* Fixed atmosphere — aurora, WebGL galaxy, grid, grain, vignette */}
+        {/* Inertial smooth scrolling — makes every scroll effect feel liquid */}
+        <SmoothScroll />
+        {/* Fixed atmosphere — washes, WebGL motes, grid, grain, vignette */}
         <BackgroundLayer />
         {/* Content stack — everything scrolls above the atmosphere */}
         <div className="relative z-10">{children}</div>

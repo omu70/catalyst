@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { Navbar } from "@/components/layout/Navbar";
 import { Hero } from "@/components/marketing/Hero";
+import { EngineProcess } from "@/components/marketing/EngineProcess";
 
 /* ============================================================================
    Landing page — server component composition shell.
@@ -20,6 +21,7 @@ export default function LandingPage(): React.JSX.Element {
     <main>
       <Navbar />
       <Hero />
+      <EngineProcess />
     </main>
   );
 }

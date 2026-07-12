@@ -41,6 +41,30 @@ export interface ButtonProps
   size?: ButtonSize;
 }
 
+/** Shared class composition — identical surface for button and link forms. */
+function buttonClasses(
+  variant: ButtonVariant,
+  size: ButtonSize,
+  className?: string,
+): string {
+  return cn(
+    // Pill geometry — the soft-corner system at its softest for controls.
+    "inline-flex cursor-pointer items-center justify-center rounded-full select-none",
+    "transition-colors duration-200",
+    "disabled:pointer-events-none disabled:opacity-40",
+    VARIANT_STYLES[variant],
+    SIZE_STYLES[size],
+    className,
+  );
+}
+
+/** Shared press physics: GPU scale transform only, spring-driven. */
+const PRESS_MOTION = {
+  whileHover: { scale: 1.02 },
+  whileTap: { scale: 0.97 },
+  transition: SPRING_SNAP,
+} as const;
+
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   function Button(
     { variant = "primary", size = "md", className, children, ...props },
@@ -49,22 +73,43 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <motion.button
         ref={ref}
-        // Shared press physics: GPU scale transform only, spring-driven.
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.97 }}
-        transition={SPRING_SNAP}
-        className={cn(
-          "inline-flex cursor-pointer items-center justify-center rounded-[--radius-control] select-none",
-          "transition-colors duration-200",
-          "disabled:pointer-events-none disabled:opacity-40",
-          VARIANT_STYLES[variant],
-          SIZE_STYLES[size],
-          className,
-        )}
+        {...PRESS_MOTION}
+        className={buttonClasses(variant, size, className)}
         {...props}
       >
         {children}
       </motion.button>
+    );
+  },
+);
+
+export interface ButtonLinkProps
+  extends Omit<HTMLMotionProps<"a">, "children"> {
+  href: string;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  children?: React.ReactNode;
+}
+
+/**
+ * <ButtonLink /> — navigation styled as a button (valid HTML: a real <a>,
+ * never a button nested in an anchor). Same physics, same variants.
+ */
+export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(
+  function ButtonLink(
+    { variant = "primary", size = "md", className, children, href, ...props },
+    ref,
+  ) {
+    return (
+      <motion.a
+        ref={ref}
+        href={href}
+        {...PRESS_MOTION}
+        className={buttonClasses(variant, size, className)}
+        {...props}
+      >
+        {children}
+      </motion.a>
     );
   },
 );
