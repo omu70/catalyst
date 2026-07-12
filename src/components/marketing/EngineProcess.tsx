@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Layers, Map, Rocket } from "lucide-react";
 
 import { Parallax } from "@/components/motion/Parallax";
+import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
 
 /* ============================================================================
@@ -93,18 +94,23 @@ export function EngineProcess(): React.JSX.Element {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ type: "spring", stiffness: 260, damping: 34 }}
-              className="glass-panel flex h-full flex-col rounded-[--radius-panel] p-7"
+              className="h-full"
             >
-              <div className="mb-5 flex items-center justify-between">
-                <span className="flex size-10 items-center justify-center rounded-xl bg-accent-ghost">
-                  <step.icon className="size-4.5 text-accent-deep" strokeWidth={2.25} />
-                </span>
-                <span className="font-mono text-xs text-data">{step.index}</span>
-              </div>
-              <h3 className="text-title font-semibold text-ink">{step.title}</h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-ink-secondary">
-                {step.body}
-              </p>
+              <SpotlightCard
+                tint="accent"
+                className="glass-panel flex h-full flex-col rounded-[--radius-panel] p-7"
+              >
+                <div className="mb-5 flex items-center justify-between">
+                  <span className="flex size-10 items-center justify-center rounded-xl bg-accent-ghost">
+                    <step.icon className="size-4.5 text-accent-deep" strokeWidth={2.25} />
+                  </span>
+                  <span className="font-mono text-xs text-data">{step.index}</span>
+                </div>
+                <h3 className="text-title font-semibold text-ink">{step.title}</h3>
+                <p className="mt-3 text-[15px] leading-relaxed text-ink-secondary">
+                  {step.body}
+                </p>
+              </SpotlightCard>
             </motion.article>
           </Parallax>
         ))}

@@ -7,6 +7,8 @@ import { GeistMono } from "geist/font/mono";
 import "@fontsource/instrument-serif/400.css";
 import "@fontsource/instrument-serif/400-italic.css";
 
+import { Analytics } from "@vercel/analytics/next";
+
 import { SITE } from "@/config/site";
 import { BackgroundLayer } from "@/components/layout/BackgroundLayer";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
@@ -41,6 +43,13 @@ export const metadata: Metadata = {
     description: SITE.description,
     siteName: SITE.name,
     type: "website",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: SITE.name }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE.name} — ${SITE.tagline}`,
+    description: SITE.description,
+    images: ["/og.png"],
   },
 };
 
@@ -61,6 +70,8 @@ export default function RootLayout({
         <BackgroundLayer />
         {/* Content stack — everything scrolls above the atmosphere */}
         <div className="relative z-10">{children}</div>
+        {/* Privacy-friendly page analytics — no-op outside Vercel */}
+        <Analytics />
       </body>
     </html>
   );

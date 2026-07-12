@@ -1,10 +1,54 @@
 "use client";
 
-import { forwardRef, type ButtonHTMLAttributes } from "react";
-import { motion, type HTMLMotionProps } from "framer-motion";
+import { forwardRef, type ButtonHTMLAttributes, type PointerEvent } from "react";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  type HTMLMotionProps,
+  type MotionValue,
+} from "framer-motion";
 
 import { SPRING_SNAP } from "@/lib/motion/springs";
 import { cn } from "@/lib/utils/cn";
+
+/* ----------------------------------------------------------------------------
+   Magnetic pull — the control leans toward the cursor (max ~6px), springs
+   back on leave. GPU transform only; inert on touch (no pointermove stream).
+   ---------------------------------------------------------------------------- */
+
+const MAGNET_STRENGTH = 0.25;
+const MAGNET_MAX_PX = 6;
+
+interface Magnetic {
+  x: MotionValue<number>;
+  y: MotionValue<number>;
+  onPointerMove: (event: PointerEvent<HTMLElement>) => void;
+  onPointerLeave: () => void;
+}
+
+function useMagnetic(): Magnetic {
+  const rawX = useMotionValue(0);
+  const rawY = useMotionValue(0);
+  const x = useSpring(rawX, { stiffness: 320, damping: 22, mass: 0.5 });
+  const y = useSpring(rawY, { stiffness: 320, damping: 22, mass: 0.5 });
+
+  return {
+    x,
+    y,
+    onPointerMove: (event) => {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const clamp = (v: number): number =>
+        Math.max(-MAGNET_MAX_PX, Math.min(MAGNET_MAX_PX, v));
+      rawX.set(clamp((event.clientX - (rect.left + rect.width / 2)) * MAGNET_STRENGTH));
+      rawY.set(clamp((event.clientY - (rect.top + rect.height / 2)) * MAGNET_STRENGTH));
+    },
+    onPointerLeave: () => {
+      rawX.set(0);
+      rawY.set(0);
+    },
+  };
+}
 
 /* ============================================================================
    <Button /> — the single button primitive for Catalyst.
@@ -91,10 +135,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     { variant = "primary", size = "md", className, children, ...props },
     ref,
   ) {
+    const magnet = useMagnetic();
     return (
       <motion.button
         ref={ref}
         {...PRESS_MOTION}
+        style={{ x: magnet.x, y: magnet.y }}
+        onPointerMove={magnet.onPointerMove}
+        onPointerLeave={magnet.onPointerLeave}
         className={buttonClasses(variant, size, className)}
         {...props}
       >
@@ -121,11 +169,15 @@ export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(
     { variant = "primary", size = "md", className, children, href, ...props },
     ref,
   ) {
+    const magnet = useMagnetic();
     return (
       <motion.a
         ref={ref}
         href={href}
         {...PRESS_MOTION}
+        style={{ x: magnet.x, y: magnet.y }}
+        onPointerMove={magnet.onPointerMove}
+        onPointerLeave={magnet.onPointerLeave}
         className={buttonClasses(variant, size, className)}
         {...props}
       >

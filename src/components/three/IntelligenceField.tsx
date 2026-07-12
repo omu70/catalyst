@@ -33,17 +33,20 @@ const FIELD = {
   /** Lerp factor for parallax easing (per-frame smoothing). */
   PARALLAX_EASE: 0.03,
   NODE_SIZE: 0.16,
-  /** Fraction of motes that are emerald signals vs neutral dust.
-      Kept small — color is 10% of the composition, even here. */
-  ACCENT_RATIO: 0.08,
-  /** Fraction of motes that are darker graphite glints. */
-  DATA_RATIO: 0.2,
+  /** Fraction of motes carrying the blue signal accent. */
+  ACCENT_RATIO: 0.14,
+  /** Fraction of motes carrying violet ambient light. */
+  DATA_RATIO: 0.18,
+  /** Scroll reactivity: scale gain over the first ~4000px of scroll. */
+  SCROLL_SCALE_GAIN: 0.14,
+  /** Scroll reactivity: additional X-tilt at full gain, radians. */
+  SCROLL_TILT: 0.22,
 } as const;
 
 const COLOR_DUST_DIM = new THREE.Color("#cfcfcc"); // paper dust — barely there
 const COLOR_DUST = new THREE.Color("#ababa7"); // neutral dust
 const COLOR_DATA = new THREE.Color("#7d7f83"); // graphite glint
-const COLOR_ACCENT = new THREE.Color("#0e9f6e"); // emerald signal
+const COLOR_ACCENT = new THREE.Color("#2563eb"); // cobalt signal
 
 /**
  * Deterministic PRNG (mulberry32). Seeded so the atmosphere renders
@@ -140,8 +143,18 @@ function FieldPoints(): React.JSX.Element {
     // Barely-perceptible drift — alive, never busy.
     group.rotation.y += FIELD.ROTATION_SPEED * delta;
 
-    // Pointer parallax — eased toward target so motion feels weighty.
-    const targetX = pointer.y * FIELD.PARALLAX_TILT;
+    // Scroll reactivity (scrollytelling): the universe swells and tilts as
+    // the page travels. Reading scrollY in-frame avoids event listeners;
+    // it's a cheap layout-free read.
+    const scrollProgress = Math.min(window.scrollY / 4000, 1);
+    const targetScale = 1 + scrollProgress * FIELD.SCROLL_SCALE_GAIN;
+    group.scale.setScalar(
+      group.scale.x + (targetScale - group.scale.x) * 0.05,
+    );
+
+    // Pointer parallax + scroll tilt — eased so motion feels weighty.
+    const targetX =
+      pointer.y * FIELD.PARALLAX_TILT + scrollProgress * FIELD.SCROLL_TILT;
     const targetZ = -pointer.x * FIELD.PARALLAX_TILT;
     group.rotation.x += (targetX - group.rotation.x) * FIELD.PARALLAX_EASE;
     group.rotation.z += (targetZ - group.rotation.z) * FIELD.PARALLAX_EASE;
@@ -159,8 +172,8 @@ function FieldPoints(): React.JSX.Element {
           size={FIELD.NODE_SIZE}
           vertexColors
           transparent
-          // Light theme: NORMAL blending — additive light is invisible on
-          // paper. Motes read as suspended pigment instead of glow.
+          // Light canvas: NORMAL blending — additive light is invisible on
+          // white. Motes read as suspended pigment; scroll still swells them.
           opacity={0.5}
           depthWrite={false}
           blending={THREE.NormalBlending}

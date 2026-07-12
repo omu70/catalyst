@@ -22,7 +22,10 @@ import {
    ========================================================================== */
 
 export const runtime = "nodejs";
-export const maxDuration = 120;
+/* 60s fits every host tier (incl. Vercel Hobby); Gemini Flash typically
+   completes in 10–30s. The service's own budget is set separately below
+   the host ceiling. */
+export const maxDuration = 60;
 
 /** Per-client budget: 5 generations per 10 minutes protects AI spend. */
 const RATE_LIMIT = { limit: 5, windowMs: 10 * 60 * 1000 } as const;

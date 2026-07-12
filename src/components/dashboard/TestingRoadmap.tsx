@@ -41,7 +41,13 @@ export function TestingRoadmap({
           <motion.article
             key={week.week}
             variants={riseItem}
-            className="glass-panel flex flex-col rounded-[--radius-panel] p-6 xl:mt-6"
+            className={`glass-panel flex flex-col rounded-[--radius-panel] p-6 xl:mt-6 ${
+              week.week === 1
+                ? // Active week — glowing state; the timeline starts HERE.
+                  // ring composes with the glass border regardless of cascade.
+                  "shadow-glow-accent ring-1 ring-accent/50"
+                : "opacity-80"
+            }`}
           >
             {/* Week marker */}
             <div className="mb-4 flex items-center gap-3">

@@ -22,10 +22,11 @@
      -------------------------------------------------------------------- */
 
   /* --------------------------------------------------------------------
-     70 / 20 / 10 DISCIPLINE
-     ~70% of any screen is white/near-white canvas, ~20% is black
-     (structural: dark product surfaces, ink pills, headlines), and ≤10%
-     is COLOR — emerald, the single accent. No second hue.
+     FINAL SYSTEM — 70 / 20 / 10:
+     ~70% light editorial canvas (these root tokens), ~20% cinematic dark
+     (the .surface-dark scope: product frame, /analyze), ~10% POP —
+     electric cobalt, the single semantic accent everywhere. Violet is
+     ambient light inside dark surfaces only, never a data encoding.
      -------------------------------------------------------------------- */
 
   /* Canvas depths — clean neutral whites (the 70%) */
@@ -33,7 +34,7 @@
   --color-abyss: #fbfbfa; /* raised regions, panels                      */
   --color-vault: #ffffff; /* highest surface (menus, popovers, cards)    */
 
-  /* Ink — neutral near-black hierarchy (the 20%) */
+  /* Ink — neutral near-black hierarchy (part of the 20%) */
   --color-ink: #111213; /* headlines                                   */
   --color-ink-secondary: #54565a; /* body copy                                   */
   --color-ink-tertiary: #8a8c90; /* captions, meta, placeholders                */
@@ -45,15 +46,18 @@
   --color-glass: rgb(255 255 255 / 0.55);
   --color-glass-bright: rgb(255 255 255 / 0.82);
 
-  /* Accent · EMERALD — THE color (the 10%). Used only for: live signal,
-     growth data, focus, and single accent words. */
-  --color-accent: #0e9f6e;
-  --color-accent-bright: #10b981;
-  --color-accent-deep: #05704a;
-  --color-accent-ghost: rgb(14 159 110 / 0.1);
+  /* Accent · ELECTRIC COBALT — the pop (the 10%). Deepened for contrast
+     on white; the dark scope brightens it back up. */
+  --color-accent: #2563eb;
+  --color-accent-bright: #3b82f6;
+  --color-accent-deep: #1d4ed8;
+  --color-accent-ghost: rgb(37 99 235 / 0.1);
 
-  /* Data · GRAPHITE — secondary emphasis is now NEUTRAL, not a second
-     hue. Telemetry, ranks, and non-priority chips read as machined gray. */
+  /* Aura · VIOLET — ambient light inside dark surfaces only */
+  --color-aura: #8b5cf6;
+  --color-aura-ghost: rgb(139 92 246 / 0.12);
+
+  /* Data · GRAPHITE — telemetry and secondary emphasis stay neutral */
   --color-data: #55585d;
   --color-data-bright: #707379;
   --color-data-ghost: rgb(85 88 93 / 0.09);
@@ -95,14 +99,14 @@
   --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
 
   /* --------------------------------------------------------------------
-     DEPTH — shadow elevation (light UIs elevate with shade, not glow)
+     DEPTH — shadow elevation on light (the dark scope flips to glow)
      -------------------------------------------------------------------- */
-  --shadow-glow-accent: 0 1px 2px rgb(5 112 74 / 0.35),
-    0 10px 28px -10px rgb(14 159 110 / 0.55);
-  --shadow-glow-data: 0 1px 2px rgb(154 119 52 / 0.3),
-    0 10px 28px -10px rgb(154 119 52 / 0.45);
+  --shadow-glow-accent: 0 1px 2px rgb(29 78 216 / 0.35),
+    0 10px 28px -10px rgb(37 99 235 / 0.5);
+  --shadow-glow-data: 0 1px 2px rgb(85 88 93 / 0.25),
+    0 10px 24px -10px rgb(85 88 93 / 0.35);
   --shadow-panel: 0 1px 0 0 rgb(255 255 255 / 0.9) inset,
-    0 1px 2px rgb(22 33 26 / 0.05), 0 20px 44px -20px rgb(22 33 26 / 0.18);
+    0 1px 2px rgb(17 18 19 / 0.05), 0 20px 44px -20px rgb(17 18 19 / 0.16);
 
   /* Soft-corner system — generous radii are part of the brand's calm */
   --radius-panel: 1.5rem;
@@ -110,54 +114,50 @@
 }
 
 /* ============================================================================
-   DUAL-SURFACE SYSTEM — `.surface-dark`
-
-   Catalyst is a light editorial page with cinematic dark product surfaces
-   (the reference pattern: ElevenLabs canvas, Future-of-Finance panels).
-   Because every component resolves SEMANTIC tokens, re-declaring them inside
-   this scope re-themes everything within — glass panels, ink, chips, score
-   bars — with zero component changes.
+   THE 20% — `.surface-dark`: Immersive-Intelligence terminal surfaces.
+   Product frame and /analyze render inside this scope; every semantic
+   token re-resolves, so the same components go cinematic with zero forks.
    ========================================================================== */
 .surface-dark {
   color-scheme: dark;
 
-  /* Canvas depths — true neutral black (the structural 20%) */
-  --color-void: #0b0b0c;
-  --color-abyss: #121214;
-  --color-vault: #1a1a1d;
+  /* Canvas depths — rich near-blacks (never #000) */
+  --color-void: #0a0a0c;
+  --color-abyss: #0f0f13;
+  --color-vault: #16161c;
 
-  /* Ink — neutral light hierarchy */
-  --color-ink: #f5f5f4;
-  --color-ink-secondary: #a4a5a8;
-  --color-ink-tertiary: #6d6e72;
-  --color-ink-faint: #3d3e42;
+  /* Ink — cool light hierarchy */
+  --color-ink: #f4f4f6;
+  --color-ink-secondary: #9d9fa8;
+  --color-ink-tertiary: #63656e;
+  --color-ink-faint: #35363e;
 
-  /* Structure */
-  --color-line: rgb(245 245 244 / 0.08);
-  --color-line-strong: rgb(245 245 244 / 0.16);
-  --color-glass: rgb(245 245 244 / 0.04);
-  --color-glass-bright: rgb(245 245 244 / 0.07);
+  /* Structure — white/10 hairlines & premium glass */
+  --color-line: rgb(255 255 255 / 0.1);
+  --color-line-strong: rgb(255 255 255 / 0.18);
+  --color-glass: rgb(255 255 255 / 0.04);
+  --color-glass-bright: rgb(255 255 255 / 0.07);
 
-  /* Emerald brightens on black — still the only hue */
-  --color-accent: #2fe6a7;
-  --color-accent-bright: #6ff2c4;
-  --color-accent-deep: #25c793;
-  --color-accent-ghost: rgb(47 230 167 / 0.12);
-  --color-data: #9b9da1;
-  --color-data-bright: #c0c1c4;
-  --color-data-ghost: rgb(155 157 161 / 0.12);
+  /* Cobalt brightens on dark */
+  --color-accent: #3b82f6;
+  --color-accent-bright: #60a5fa;
+  --color-accent-deep: #5195f5;
+  --color-accent-ghost: rgb(59 130 246 / 0.12);
+  --color-data: #a6a8b0;
+  --color-data-bright: #c7c9d1;
+  --color-data-ghost: rgb(166 168 176 / 0.1);
 
-  /* Depth returns to glow-based elevation inside dark surfaces */
-  --shadow-panel: 0 1px 0 0 rgb(245 245 244 / 0.06) inset,
-    0 24px 48px -24px rgb(0 0 0 / 0.8);
-  --shadow-glow-accent: 0 0 0 1px rgb(47 230 167 / 0.28),
-    0 8px 40px -8px rgb(47 230 167 / 0.45);
-  --shadow-glow-data: 0 0 0 1px rgb(155 157 161 / 0.2),
-    0 8px 40px -8px rgb(155 157 161 / 0.35);
+  /* Glow elevation + inner light-catch */
+  --shadow-panel: 0 1px 0 0 rgb(255 255 255 / 0.06) inset,
+    0 -1px 0 0 rgb(0 0 0 / 0.4) inset, 0 24px 48px -24px rgb(0 0 0 / 0.8);
+  --shadow-glow-accent: 0 0 0 1px rgb(59 130 246 / 0.3),
+    0 8px 40px -8px rgb(59 130 246 / 0.45);
+  --shadow-glow-data: 0 0 0 1px rgb(199 201 209 / 0.18),
+    0 8px 32px -10px rgb(199 201 209 / 0.25);
 
-  /* Nav glass goes dark inside dark surfaces */
-  --nav-glass-from: rgb(20 20 22 / 0.92);
-  --nav-glass-to: rgb(20 20 22 / 0.76);
+  /* Nav glass goes terminal-dark inside the scope */
+  --nav-glass-from: rgb(22 22 28 / 0.9);
+  --nav-glass-to: rgb(22 22 28 / 0.72);
 }
 
 /* ============================================================================
@@ -165,7 +165,7 @@
    ========================================================================== */
 @layer base {
   :root {
-    /* Nav glass (light default) — overridden inside .surface-dark */
+    /* Nav glass — near-opaque white (light canvas default) */
     --nav-glass-from: rgb(255 255 255 / 0.92);
     --nav-glass-to: rgb(255 255 255 / 0.78);
   }
@@ -191,7 +191,7 @@
   /* Accent selection — small detail, large perceived quality */
   ::selection {
     background: var(--color-accent);
-    color: #ffffff;
+    color: var(--color-void);
   }
 
   /* Minimal instrument-panel scrollbar */
@@ -267,11 +267,12 @@
   letter-spacing: -0.01em;
 }
 
-/* Lit text — accent words inside headlines. Emerald is the ONLY colored
-   emphasis (the 10%); the secondary emphasis voice is pure ink italic. */
+/* Lit text — accent words inside headlines. Cobalt carries the pop;
+   the secondary emphasis voice is pure ink italic. On light the glow is
+   a whisper; inside .surface-dark the brighter accent reads as neon. */
 @utility text-lit-accent {
   color: var(--color-accent);
-  text-shadow: 0 1px 24px rgb(14 159 110 / 0.18);
+  text-shadow: 0 1px 28px rgb(37 99 235 / 0.25);
 }
 @utility text-lit-data {
   color: var(--color-ink);
@@ -296,7 +297,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.028;
+  opacity: 0.032;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 

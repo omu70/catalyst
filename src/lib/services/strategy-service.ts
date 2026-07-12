@@ -20,8 +20,9 @@ import {
    Pure server-side module: never import from client components.
    ========================================================================== */
 
-/** Hard deadline for a generation call. */
-const GENERATION_TIMEOUT_MS = 90_000;
+/** Hard deadline for a generation call — kept under the route's 60s host
+    ceiling so OUR timeout fires first and returns a clean typed error. */
+const GENERATION_TIMEOUT_MS = 50_000;
 
 /** Attempts: 1 initial + 1 corrective retry on schema mismatch. */
 const MAX_ATTEMPTS = 2;

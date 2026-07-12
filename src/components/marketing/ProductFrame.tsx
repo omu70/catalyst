@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { HERO_METRICS } from "@/config/site";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
 import { Parallax } from "@/components/motion/Parallax";
+import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { StrategyConsole } from "@/components/marketing/StrategyConsole";
 
 /* ============================================================================
@@ -28,13 +29,17 @@ export function ProductFrame(): React.JSX.Element {
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ type: "spring", stiffness: 140, damping: 26, mass: 1 }}
-          className="surface-dark overflow-hidden rounded-[2rem] border border-line bg-void p-2 shadow-[0_48px_120px_-48px_rgb(22_33_26/0.5)]"
+          className="surface-dark overflow-hidden rounded-[2rem] border border-line bg-abyss p-2 shadow-[0_48px_120px_-48px_rgb(0_0_0/0.9)]"
         >
-          {/* Inner atmosphere — a quiet navy gradient with an emerald bloom */}
-          <div className="relative overflow-hidden rounded-[1.6rem] bg-[linear-gradient(160deg,_#141416_0%,_#0b0b0c_55%,_#101012_100%)] px-5 py-6 sm:px-8 sm:py-8">
+          {/* Inner atmosphere — ambient blue + violet light behind the console */}
+          <div className="relative overflow-hidden rounded-[1.6rem] bg-[linear-gradient(160deg,_#101018_0%,_#0a0a0c_55%,_#0e0d16_100%)] px-5 py-6 sm:px-8 sm:py-8">
             <div
               aria-hidden
-              className="pointer-events-none absolute -top-1/3 left-1/4 h-[420px] w-[640px] rounded-full bg-[radial-gradient(ellipse_at_center,_rgb(47_230_167/0.09)_0%,_transparent_65%)] blur-2xl"
+              className="pointer-events-none absolute -top-1/3 left-1/4 h-[420px] w-[640px] rounded-full bg-[radial-gradient(ellipse_at_center,_rgb(59_130_246/0.15)_0%,_transparent_65%)] blur-2xl"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-1/4 -bottom-1/3 h-[380px] w-[560px] rounded-full bg-[radial-gradient(ellipse_at_center,_rgb(139_92_246/0.13)_0%,_transparent_65%)] blur-2xl"
             />
             <div aria-hidden className="grain pointer-events-none absolute inset-0" />
 
@@ -69,16 +74,21 @@ export function ProductFrame(): React.JSX.Element {
 
                 {/* Outcome telemetry — the numbers that sell the machine */}
                 <div className="flex flex-col gap-4 lg:col-span-2">
-                  {HERO_METRICS.map((metric) => (
-                    <motion.div
-                      key={metric.label}
-                      variants={riseItem}
-                      className="glass-panel flex flex-1 flex-col justify-center rounded-[--radius-panel] px-6 py-5"
-                    >
-                      <span className="font-mono text-3xl font-medium tracking-tight text-ink">
-                        {metric.value}
-                      </span>
-                      <span className="machine-label mt-1.5">{metric.label}</span>
+                  {HERO_METRICS.map((metric, index) => (
+                    <motion.div key={metric.label} variants={riseItem} className="flex-1">
+                      <SpotlightCard
+                        tint={index === 1 ? "aura" : "accent"}
+                        className="glass-panel h-full rounded-[--radius-panel] px-6 py-5"
+                      >
+                        <div className="flex h-full flex-col justify-center">
+                          <span className="font-mono text-3xl font-medium tracking-tight text-ink">
+                            {metric.value}
+                          </span>
+                          <span className="machine-label mt-1.5">
+                            {metric.label}
+                          </span>
+                        </div>
+                      </SpotlightCard>
                     </motion.div>
                   ))}
                 </div>
