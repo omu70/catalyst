@@ -38,7 +38,7 @@ export default async function HistoryPage(): Promise<React.JSX.Element> {
   }
 
   return (
-    <main className="surface-dark relative z-10 min-h-svh bg-void">
+    <main className="relative z-10 min-h-svh">
       <Navbar />
       <section className="relative z-10 mx-auto w-[min(1180px,calc(100%-2rem))] pt-36 pb-24">
         <p className="machine-label mb-3">Strategy memory</p>

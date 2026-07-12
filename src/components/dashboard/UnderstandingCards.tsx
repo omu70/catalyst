@@ -13,6 +13,7 @@ import {
 import type { ProductUnderstanding } from "@/types/creative-universe";
 import { STAGE_LABELS } from "@/config/universe-ui";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
+import { LeafCard } from "@/components/motion/LeafCard";
 
 /* ============================================================================
    <UnderstandingCards /> — full customer psychology: jobs, pains, outcomes,
@@ -60,12 +61,9 @@ export function UnderstandingCards({
       </motion.h2>
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {CARDS.map(({ key, title, icon: Icon }) => (
-          <motion.article
-            key={key}
-            variants={riseItem}
-            className="glass-panel rounded-[--radius-panel] p-6"
-          >
+        {CARDS.map(({ key, title, icon: Icon }, i) => (
+          <LeafCard key={key} index={i % 3}>
+            <article className="glass-panel h-full rounded-[--radius-panel] p-6">
             <span className="mb-4 flex size-9 items-center justify-center rounded-xl bg-accent-ghost">
               <Icon className="size-4 text-accent-deep" strokeWidth={2.25} />
             </span>
@@ -81,7 +79,8 @@ export function UnderstandingCards({
                 </li>
               ))}
             </ul>
-          </motion.article>
+            </article>
+          </LeafCard>
         ))}
       </div>
 

@@ -108,9 +108,10 @@
   --shadow-panel: 0 1px 0 0 rgb(255 255 255 / 0.9) inset,
     0 1px 2px rgb(17 18 19 / 0.05), 0 20px 44px -20px rgb(17 18 19 / 0.16);
 
-  /* Soft-corner system — generous radii are part of the brand's calm */
-  --radius-panel: 1.5rem;
-  --radius-control: 0.75rem;
+  /* Soft-corner system — generous radii are part of the brand's calm.
+     No sharp-ended cards anywhere. */
+  --radius-panel: 1.75rem;
+  --radius-control: 0.875rem;
 }
 
 /* ============================================================================

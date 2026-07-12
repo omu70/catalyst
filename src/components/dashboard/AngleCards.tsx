@@ -9,6 +9,7 @@ import {
   STAGE_LABELS,
 } from "@/config/universe-ui";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
+import { LeafCard } from "@/components/motion/LeafCard";
 import { OutcomeTracker } from "@/components/dashboard/OutcomeTracker";
 
 /* ============================================================================
@@ -43,11 +44,8 @@ export function AngleCards({
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {topAngles.map((angle, index) => (
-          <motion.article
-            key={angle.title}
-            variants={riseItem}
-            className="glass-panel flex flex-col rounded-[--radius-panel] p-6"
-          >
+          <LeafCard key={angle.title} index={index % 3}>
+            <article className="glass-panel flex h-full flex-col rounded-[--radius-panel] p-6">
             {/* Rank + score header */}
             <div className="mb-3 flex items-center justify-between">
               <span className="font-mono text-xs text-data">
@@ -102,7 +100,8 @@ export function AngleCards({
 
             {/* Learning loop — mark what actually happened */}
             <OutcomeTracker hypothesisTitle={angle.title} />
-          </motion.article>
+            </article>
+          </LeafCard>
         ))}
       </div>
     </motion.section>

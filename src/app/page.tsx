@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/marketing/Hero";
 import { ProductFrame } from "@/components/marketing/ProductFrame";
 import { EngineProcess } from "@/components/marketing/EngineProcess";
+import { CTABand } from "@/components/marketing/CTABand";
 
 /* ============================================================================
    Landing page — server component composition shell.
@@ -25,6 +26,7 @@ export default function LandingPage(): React.JSX.Element {
       <Hero />
       <ProductFrame />
       <EngineProcess />
+      <CTABand />
       <Footer />
     </main>
   );

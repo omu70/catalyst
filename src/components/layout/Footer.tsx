@@ -10,8 +10,10 @@ import { NAV_LINKS, SITE } from "@/config/site";
 
 export function Footer(): React.JSX.Element {
   return (
-    <footer className="print:hidden relative z-10 mx-auto w-[min(1180px,calc(100%-2rem))] pb-10">
-      <div className="hairline-x mb-10" />
+    /* Dark closing band — part of the 30% black. surface-dark re-themes
+       every token inside; the band runs full-bleed to the page edge. */
+    <footer className="surface-dark print:hidden relative z-10 mt-4 bg-void">
+      <div className="mx-auto w-[min(1180px,calc(100%-2rem))] pt-14 pb-10">
 
       <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
         {/* Wordmark + one-line thesis */}
@@ -49,6 +51,7 @@ export function Footer(): React.JSX.Element {
           © {new Date().getFullYear()} {SITE.name} · All rights reserved
         </p>
         <p className="machine-label">Built for performance marketers</p>
+      </div>
       </div>
     </footer>
   );

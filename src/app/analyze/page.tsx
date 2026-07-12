@@ -49,7 +49,7 @@ export default async function AnalyzePage({
   }
 
   return (
-    <main className="surface-dark relative z-10 min-h-svh bg-void">
+    <main className="relative z-10 min-h-svh">
       <Navbar />
       <AnalyzeView
         savedUniverse={savedUniverse}

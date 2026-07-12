@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Layers, Map, Rocket } from "lucide-react";
 
 import { Parallax } from "@/components/motion/Parallax";
+import { LeafCard } from "@/components/motion/LeafCard";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
 
@@ -87,15 +88,9 @@ export function EngineProcess(): React.JSX.Element {
       </motion.div>
 
       <div className="grid gap-6 md:grid-cols-3">
-        {STEPS.map((step) => (
+        {STEPS.map((step, i) => (
           <Parallax key={step.index} speed={step.speed}>
-            <motion.article
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ type: "spring", stiffness: 260, damping: 34 }}
-              className="h-full"
-            >
+            <LeafCard index={i}>
               <SpotlightCard
                 tint="accent"
                 className="glass-panel flex h-full flex-col rounded-[--radius-panel] p-7"
@@ -111,7 +106,7 @@ export function EngineProcess(): React.JSX.Element {
                   {step.body}
                 </p>
               </SpotlightCard>
-            </motion.article>
+            </LeafCard>
           </Parallax>
         ))}
       </div>

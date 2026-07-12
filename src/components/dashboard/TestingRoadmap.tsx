@@ -5,6 +5,7 @@ import { Flag } from "lucide-react";
 
 import type { CreativeUniverse } from "@/types/creative-universe";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
+import { LeafCard } from "@/components/motion/LeafCard";
 
 /* ============================================================================
    <TestingRoadmap /> — the 4-week plan as a board.
@@ -38,10 +39,9 @@ export function TestingRoadmap({
         <div aria-hidden className="hairline-x absolute -top-0 right-0 left-0 hidden xl:block" />
 
         {weeks.map((week) => (
-          <motion.article
-            key={week.week}
-            variants={riseItem}
-            className={`glass-panel flex flex-col rounded-[--radius-panel] p-6 xl:mt-6 ${
+          <LeafCard key={week.week} index={(week.week - 1) % 4} className="xl:mt-6">
+            <article
+            className={`glass-panel flex h-full flex-col rounded-[--radius-panel] p-6 ${
               week.week === 1
                 ? // Active week — glowing state; the timeline starts HERE.
                   // ring composes with the glass border regardless of cascade.
@@ -82,7 +82,8 @@ export function TestingRoadmap({
                 {week.successMetric}
               </p>
             </div>
-          </motion.article>
+            </article>
+          </LeafCard>
         ))}
       </div>
     </motion.section>
