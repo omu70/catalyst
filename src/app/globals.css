@@ -1,0 +1,267 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   CATALYST — Design Foundation · Art direction: "MOLTEN OBSIDIAN"
+   ----------------------------------------------------------------------------
+   Warm charcoal blacks (zero blue cast), ivory ink, and two accents used
+   semantically:
+     - ember (molten orange) → primary action, heat, performance
+     - brass (machined gold) → data, telemetry, craft details
+   Editorial serif italics (Instrument Serif) punctuate the Geist system —
+   the tension between machine-mono and editorial-serif IS the brand voice.
+
+   Every visual decision in the product resolves to a token declared here.
+   No component may introduce ad-hoc hex values, shadows, or easing curves.
+   ========================================================================== */
+
+@theme {
+  /* --------------------------------------------------------------------
+     COLOR SYSTEM — warm obsidian depths
+     -------------------------------------------------------------------- */
+
+  /* Canvas depths — three z-levels, all warm-shifted (no blue anywhere) */
+  --color-void: #0b0a08; /* page background — deepest layer           */
+  --color-abyss: #121008; /* raised regions, panels                     */
+  --color-vault: #1a1712; /* highest opaque surface (menus, popovers)   */
+
+  /* Ink — warm ivory hierarchy (never pure white) */
+  --color-ink: #f4efe4; /* headlines                                  */
+  --color-ink-secondary: #a89f8f; /* body copy                                  */
+  --color-ink-tertiary: #6f6759; /* captions, meta, placeholders               */
+  --color-ink-faint: #3f3a31; /* disabled, decorative glyphs                */
+
+  /* Structure — hairlines & glass, warm-tinted alpha */
+  --color-line: rgb(244 239 228 / 0.08);
+  --color-line-strong: rgb(244 239 228 / 0.16);
+  --color-glass: rgb(244 239 228 / 0.03);
+  --color-glass-bright: rgb(244 239 228 / 0.06);
+
+  /* Accent · EMBER — molten orange (primary action / heat / performance) */
+  --color-ember: #ff5c1f;
+  --color-ember-bright: #ff8a50;
+  --color-ember-deep: #b83a08;
+  --color-ember-ghost: rgb(255 92 31 / 0.12);
+
+  /* Accent · BRASS — machined gold (data / telemetry / craft) */
+  --color-brass: #c9a96e;
+  --color-brass-bright: #e6c990;
+  --color-brass-ghost: rgb(201 169 110 / 0.12);
+
+  /* Status */
+  --color-critical: #ff5c48;
+  --color-positive: #b7c98a;
+
+  /* --------------------------------------------------------------------
+     TYPOGRAPHY — three voices, strict roles:
+       Geist Sans        → product voice (UI, headlines)
+       Geist Mono        → machine voice (data, labels, telemetry)
+       Instrument Serif  → editorial voice (italic accent words ONLY)
+     -------------------------------------------------------------------- */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+
+  /* Display scale — tighter tracking as size grows (optical correction) */
+  --text-display-xl: 4.75rem;
+  --text-display-xl--line-height: 1;
+  --text-display-xl--letter-spacing: -0.03em;
+  --text-display: 3.25rem;
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.025em;
+  --text-title: 1.375rem;
+  --text-title--line-height: 1.3;
+  --text-title--letter-spacing: -0.015em;
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 1.4;
+  --text-micro--letter-spacing: 0.12em;
+
+  /* --------------------------------------------------------------------
+     MOTION — CSS side is ambient loops only; interactive motion lives in
+     framer-motion + GSAP so it responds to gesture and reduced-motion.
+     -------------------------------------------------------------------- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* --------------------------------------------------------------------
+     DEPTH — warm glow elevation (dark UIs elevate with light, not shade)
+     -------------------------------------------------------------------- */
+  --shadow-glow-ember: 0 0 0 1px rgb(255 92 31 / 0.3),
+    0 8px 40px -8px rgb(255 92 31 / 0.5);
+  --shadow-glow-brass: 0 0 0 1px rgb(201 169 110 / 0.25),
+    0 8px 40px -8px rgb(201 169 110 / 0.4);
+  --shadow-panel: 0 1px 0 0 rgb(244 239 228 / 0.07) inset,
+    0 24px 48px -24px rgb(0 0 0 / 0.85);
+
+  --radius-panel: 1.25rem;
+  --radius-control: 0.625rem;
+}
+
+/* ============================================================================
+   BASE LAYER
+   ========================================================================== */
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--color-void);
+    color: var(--color-ink-secondary);
+    font-family: var(--font-sans);
+    overflow-x: clip;
+  }
+
+  /* Ember selection — small detail, large perceived quality */
+  ::selection {
+    background: var(--color-ember);
+    color: var(--color-void);
+  }
+
+  /* Minimal instrument-panel scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-line-strong);
+    border-radius: 999px;
+    border: 3px solid var(--color-void);
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Accessible focus — visible ring for keyboard navigation only */
+  :focus-visible {
+    outline: 2px solid var(--color-ember);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* ============================================================================
+   BESPOKE UTILITIES — the reusable visual vocabulary of Catalyst
+   ========================================================================== */
+
+/* Glass panel: blur + warm alpha fill + top-edge light catch */
+@utility glass-panel {
+  background: linear-gradient(
+    180deg,
+    var(--color-glass-bright) 0%,
+    var(--color-glass) 100%
+  );
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-panel);
+}
+
+/* Hairline divider that fades at both ends — used instead of full borders */
+@utility hairline-x {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-line-strong) 20%,
+    var(--color-line-strong) 80%,
+    transparent
+  );
+}
+
+/* Editorial accent — the serif-italic voice, reserved for single words
+   inside display headlines. Slightly oversized to optically match Geist. */
+@utility editorial {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Molten text — ember-lit accent words */
+@utility text-molten {
+  color: var(--color-ember-bright);
+  text-shadow: 0 0 32px rgb(255 92 31 / 0.45);
+}
+
+/* Machine label — uppercase mono microcopy (section eyebrows, data labels) */
+@utility machine-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-tertiary);
+}
+
+/* Film grain — static SVG noise; kills flat-gradient banding.
+   NOT animated: animating filters would break the 60fps budget. */
+@utility grain {
+  position: relative;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============================================================================
+   AMBIENT KEYFRAMES — transform/opacity only (GPU-composited, no layout)
+   ========================================================================== */
+
+/* Forge drift: the wide light beams breathing across the canvas */
+@keyframes forge-drift {
+  0%,
+  100% {
+    transform: translate3d(-3%, 0, 0) scaleX(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate3d(3%, 0, 0) scaleX(1.08);
+    opacity: 1;
+  }
+}
+
+/* Beacon: breathing glow for "live" status dots */
+@keyframes beacon-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.82);
+  }
+}
+
+.animate-forge {
+  animation: forge-drift 22s var(--ease-in-out-soft) infinite;
+  will-change: transform, opacity;
+}
+.animate-forge-slow {
+  animation: forge-drift 34s var(--ease-in-out-soft) infinite reverse;
+  will-change: transform, opacity;
+}
+.animate-beacon {
+  animation: beacon-pulse 2.4s var(--ease-in-out-soft) infinite;
+}
+
+/* Respect user motion preferences — ambient loops halt entirely */
+@media (prefers-reduced-motion: reduce) {
+  .animate-forge,
+  .animate-forge-slow,
+  .animate-beacon {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
