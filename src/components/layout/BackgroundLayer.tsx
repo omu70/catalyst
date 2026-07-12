@@ -39,14 +39,14 @@ export function BackgroundLayer(): React.JSX.Element {
       aria-hidden
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
     >
-      {/* 1 · Ledger washes — wide, blurred color fields on paper.
-             The emerald wash rakes across the upper third (the signal line);
-             a fainter bronze wash grounds the lower right. Oversized so the
-             drift animation never exposes an edge. */}
-      <div className="animate-beam absolute top-[14%] left-1/2 h-[46vh] w-[160vw] -translate-x-1/2 -rotate-6 bg-[radial-gradient(ellipse_50%_50%_at_50%_50%,_rgb(14_159_110/0.09)_0%,_rgb(14_159_110/0.03)_45%,_transparent_70%)] blur-2xl" />
-      <div className="animate-beam-slow absolute top-[55%] left-[60%] h-[36vh] w-[120vw] -translate-x-1/2 rotate-3 bg-[radial-gradient(ellipse_50%_50%_at_50%_50%,_rgb(154_119_52/0.07)_0%,_transparent_65%)] blur-2xl" />
+      {/* 1 · Washes — 70/20/10 discipline: the atmosphere is near-neutral.
+             One whisper of emerald (the color budget), one graphite shadow
+             wash, and a sheet of daylight. Oversized so drift never exposes
+             an edge. */}
+      <div className="animate-beam absolute top-[14%] left-1/2 h-[46vh] w-[160vw] -translate-x-1/2 -rotate-6 bg-[radial-gradient(ellipse_50%_50%_at_50%_50%,_rgb(14_159_110/0.05)_0%,_rgb(14_159_110/0.02)_45%,_transparent_70%)] blur-2xl" />
+      <div className="animate-beam-slow absolute top-[55%] left-[60%] h-[36vh] w-[120vw] -translate-x-1/2 rotate-3 bg-[radial-gradient(ellipse_50%_50%_at_50%_50%,_rgb(17_18_19/0.04)_0%,_transparent_65%)] blur-2xl" />
       {/* Bright ceiling — a sheet of daylight that lifts the top of the page */}
-      <div className="absolute -top-[10%] left-1/2 h-[45vh] w-[130vw] -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,_rgb(255_255_255/0.75)_0%,_transparent_70%)]" />
+      <div className="absolute -top-[10%] left-1/2 h-[45vh] w-[130vw] -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,_rgb(255_255_255/0.8)_0%,_transparent_70%)]" />
 
       {/* 2 · WebGL mote field — skipped entirely under reduced motion */}
       {!prefersReducedMotion && (
@@ -61,7 +61,7 @@ export function BackgroundLayer(): React.JSX.Element {
         className="absolute inset-0 opacity-40 [mask-image:radial-gradient(ellipse_70%_60%_at_45%_40%,black,transparent)]"
         style={{
           backgroundImage:
-            "linear-gradient(to right, rgb(22 33 26 / 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgb(22 33 26 / 0.05) 1px, transparent 1px)",
+            "linear-gradient(to right, rgb(17 18 19 / 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgb(17 18 19 / 0.05) 1px, transparent 1px)",
           backgroundSize: "88px 88px",
         }}
       />
@@ -71,7 +71,7 @@ export function BackgroundLayer(): React.JSX.Element {
 
       {/* 5 · Paper vignette — a soft darkening at the frame edges that pulls
              the eye to the content column without reading as "dark mode" */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_85%_75%_at_45%_35%,_transparent_45%,_rgb(22_33_26/0.07)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_85%_75%_at_45%_35%,_transparent_45%,_rgb(17_18_19/0.06)_100%)]" />
     </div>
   );
 }

@@ -21,35 +21,42 @@
      COLOR SYSTEM — daylight ledger
      -------------------------------------------------------------------- */
 
-  /* Canvas depths — three z-levels of warm paper (void = deepest layer) */
-  --color-void: #f4f2ea; /* page background — warm paper               */
-  --color-abyss: #faf9f4; /* raised regions, panels                      */
+  /* --------------------------------------------------------------------
+     70 / 20 / 10 DISCIPLINE
+     ~70% of any screen is white/near-white canvas, ~20% is black
+     (structural: dark product surfaces, ink pills, headlines), and ≤10%
+     is COLOR — emerald, the single accent. No second hue.
+     -------------------------------------------------------------------- */
+
+  /* Canvas depths — clean neutral whites (the 70%) */
+  --color-void: #f7f7f5; /* page background                             */
+  --color-abyss: #fbfbfa; /* raised regions, panels                      */
   --color-vault: #ffffff; /* highest surface (menus, popovers, cards)    */
 
-  /* Ink — green-cast near-black hierarchy (never pure black) */
-  --color-ink: #16211a; /* headlines                                   */
-  --color-ink-secondary: #4c584f; /* body copy                                   */
-  --color-ink-tertiary: #7d857b; /* captions, meta, placeholders                */
-  --color-ink-faint: #b7bcb0; /* disabled, decorative glyphs                 */
+  /* Ink — neutral near-black hierarchy (the 20%) */
+  --color-ink: #111213; /* headlines                                   */
+  --color-ink-secondary: #54565a; /* body copy                                   */
+  --color-ink-tertiary: #8a8c90; /* captions, meta, placeholders                */
+  --color-ink-faint: #c3c4c6; /* disabled, decorative glyphs                 */
 
-  /* Structure — hairlines & glass, ink-tinted / white alpha */
-  --color-line: rgb(22 33 26 / 0.1);
-  --color-line-strong: rgb(22 33 26 / 0.18);
+  /* Structure — neutral hairlines & white glass */
+  --color-line: rgb(17 18 19 / 0.1);
+  --color-line-strong: rgb(17 18 19 / 0.18);
   --color-glass: rgb(255 255 255 / 0.55);
   --color-glass-bright: rgb(255 255 255 / 0.82);
 
-  /* Accent · EMERALD — live signal (primary action / growth / ROAS) */
+  /* Accent · EMERALD — THE color (the 10%). Used only for: live signal,
+     growth data, focus, and single accent words. */
   --color-accent: #0e9f6e;
   --color-accent-bright: #10b981;
   --color-accent-deep: #05704a;
   --color-accent-ghost: rgb(14 159 110 / 0.1);
 
-  /* Data · AMBER — telemetry, craft, secondary emphasis.
-     #b8860b is validator-passed against the emerald accent on this surface:
-     chroma floor OK, CVD ΔE 39 (protan), ≥3:1 contrast. */
-  --color-data: #b8860b;
-  --color-data-bright: #c8860d;
-  --color-data-ghost: rgb(184 134 11 / 0.12);
+  /* Data · GRAPHITE — secondary emphasis is now NEUTRAL, not a second
+     hue. Telemetry, ranks, and non-priority chips read as machined gray. */
+  --color-data: #55585d;
+  --color-data-bright: #707379;
+  --color-data-ghost: rgb(85 88 93 / 0.09);
 
   /* Status */
   --color-critical: #d43d2a;
@@ -65,10 +72,11 @@
   --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
   --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
 
-  /* Display scale — tighter tracking as size grows (optical correction) */
-  --text-display-xl: 4.75rem;
-  --text-display-xl--line-height: 1;
-  --text-display-xl--letter-spacing: -0.03em;
+  /* Display scale — tighter tracking as size grows (optical correction).
+     XL sized to the reference language: enormous, tight, editorial. */
+  --text-display-xl: 5.25rem;
+  --text-display-xl--line-height: 0.98;
+  --text-display-xl--letter-spacing: -0.038em;
   --text-display: 3.25rem;
   --text-display--line-height: 1.04;
   --text-display--letter-spacing: -0.025em;
@@ -102,9 +110,66 @@
 }
 
 /* ============================================================================
+   DUAL-SURFACE SYSTEM — `.surface-dark`
+
+   Catalyst is a light editorial page with cinematic dark product surfaces
+   (the reference pattern: ElevenLabs canvas, Future-of-Finance panels).
+   Because every component resolves SEMANTIC tokens, re-declaring them inside
+   this scope re-themes everything within — glass panels, ink, chips, score
+   bars — with zero component changes.
+   ========================================================================== */
+.surface-dark {
+  color-scheme: dark;
+
+  /* Canvas depths — true neutral black (the structural 20%) */
+  --color-void: #0b0b0c;
+  --color-abyss: #121214;
+  --color-vault: #1a1a1d;
+
+  /* Ink — neutral light hierarchy */
+  --color-ink: #f5f5f4;
+  --color-ink-secondary: #a4a5a8;
+  --color-ink-tertiary: #6d6e72;
+  --color-ink-faint: #3d3e42;
+
+  /* Structure */
+  --color-line: rgb(245 245 244 / 0.08);
+  --color-line-strong: rgb(245 245 244 / 0.16);
+  --color-glass: rgb(245 245 244 / 0.04);
+  --color-glass-bright: rgb(245 245 244 / 0.07);
+
+  /* Emerald brightens on black — still the only hue */
+  --color-accent: #2fe6a7;
+  --color-accent-bright: #6ff2c4;
+  --color-accent-deep: #25c793;
+  --color-accent-ghost: rgb(47 230 167 / 0.12);
+  --color-data: #9b9da1;
+  --color-data-bright: #c0c1c4;
+  --color-data-ghost: rgb(155 157 161 / 0.12);
+
+  /* Depth returns to glow-based elevation inside dark surfaces */
+  --shadow-panel: 0 1px 0 0 rgb(245 245 244 / 0.06) inset,
+    0 24px 48px -24px rgb(0 0 0 / 0.8);
+  --shadow-glow-accent: 0 0 0 1px rgb(47 230 167 / 0.28),
+    0 8px 40px -8px rgb(47 230 167 / 0.45);
+  --shadow-glow-data: 0 0 0 1px rgb(155 157 161 / 0.2),
+    0 8px 40px -8px rgb(155 157 161 / 0.35);
+
+  /* Nav glass goes dark inside dark surfaces */
+  --nav-glass-from: rgb(20 20 22 / 0.92);
+  --nav-glass-to: rgb(20 20 22 / 0.76);
+}
+
+/* ============================================================================
    BASE LAYER
    ========================================================================== */
 @layer base {
+  :root {
+    /* Nav glass (light default) — overridden inside .surface-dark */
+    --nav-glass-from: rgb(255 255 255 / 0.92);
+    --nav-glass-to: rgb(255 255 255 / 0.78);
+  }
+
   * {
     border-color: var(--color-line);
   }
@@ -172,8 +237,8 @@
 @utility glass-nav {
   background: linear-gradient(
     180deg,
-    rgb(255 255 255 / 0.92) 0%,
-    rgb(255 255 255 / 0.78) 100%
+    var(--nav-glass-from) 0%,
+    var(--nav-glass-to) 100%
   );
   backdrop-filter: blur(20px) saturate(1.3);
   -webkit-backdrop-filter: blur(20px) saturate(1.3);
@@ -202,15 +267,14 @@
   letter-spacing: -0.01em;
 }
 
-/* Lit text — accent words inside headlines. On paper, glow becomes a
-   whisper: color carries the emphasis, the shadow is barely-there warmth. */
+/* Lit text — accent words inside headlines. Emerald is the ONLY colored
+   emphasis (the 10%); the secondary emphasis voice is pure ink italic. */
 @utility text-lit-accent {
   color: var(--color-accent);
   text-shadow: 0 1px 24px rgb(14 159 110 / 0.18);
 }
 @utility text-lit-data {
-  color: var(--color-data);
-  text-shadow: 0 1px 24px rgb(184 134 11 / 0.15);
+  color: var(--color-ink);
 }
 
 /* Machine label — uppercase mono microcopy (section eyebrows, data labels) */

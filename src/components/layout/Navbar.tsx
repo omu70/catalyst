@@ -6,7 +6,7 @@ import { ArrowUpRight, Command } from "lucide-react";
 
 import { NAV_LINKS, SITE } from "@/config/site";
 import { navReveal } from "@/lib/motion/variants";
-import { Button, ButtonLink } from "@/components/ui/Button";
+import { Button, ButtonChip, ButtonLink } from "@/components/ui/Button";
 
 /* ============================================================================
    <Navbar /> — floating glass command bar.
@@ -59,7 +59,9 @@ export function Navbar(): React.JSX.Element {
           </Button>
           <ButtonLink href="/analyze" variant="primary" size="md">
             Analyze my store
-            <ArrowUpRight className="size-4" strokeWidth={2.25} />
+            <ButtonChip>
+              <ArrowUpRight className="size-3" strokeWidth={2.5} />
+            </ButtonChip>
           </ButtonLink>
         </div>
       </nav>

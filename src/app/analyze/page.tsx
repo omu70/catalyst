@@ -16,7 +16,12 @@ export const metadata: Metadata = {
 
 export default function AnalyzePage(): React.JSX.Element {
   return (
-    <main>
+    /*
+     * The product surface is cinematic-dark (reference pattern: light
+     * marketing canvas, dark instrument). `.surface-dark` re-themes every
+     * token below; the opaque bg-void covers the light atmosphere layer.
+     */
+    <main className="surface-dark relative z-10 min-h-svh bg-void">
       <Navbar />
       <AnalyzeView />
     </main>

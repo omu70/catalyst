@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { Navbar } from "@/components/layout/Navbar";
 import { Hero } from "@/components/marketing/Hero";
+import { ProductFrame } from "@/components/marketing/ProductFrame";
 import { EngineProcess } from "@/components/marketing/EngineProcess";
 
 /* ============================================================================
@@ -21,6 +22,7 @@ export default function LandingPage(): React.JSX.Element {
     <main>
       <Navbar />
       <Hero />
+      <ProductFrame />
       <EngineProcess />
     </main>
   );

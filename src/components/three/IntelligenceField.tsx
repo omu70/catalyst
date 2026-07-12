@@ -33,15 +33,16 @@ const FIELD = {
   /** Lerp factor for parallax easing (per-frame smoothing). */
   PARALLAX_EASE: 0.03,
   NODE_SIZE: 0.16,
-  /** Fraction of motes that are emerald signals vs neutral dust. */
-  ACCENT_RATIO: 0.16,
-  /** Fraction of motes that are champagne glints. */
-  DATA_RATIO: 0.22,
+  /** Fraction of motes that are emerald signals vs neutral dust.
+      Kept small — color is 10% of the composition, even here. */
+  ACCENT_RATIO: 0.08,
+  /** Fraction of motes that are darker graphite glints. */
+  DATA_RATIO: 0.2,
 } as const;
 
-const COLOR_DUST_DIM = new THREE.Color("#c9cdc0"); // paper dust — barely there
-const COLOR_DUST = new THREE.Color("#a9b0a0"); // cool dust
-const COLOR_DATA = new THREE.Color("#b18a3f"); // bronze glint
+const COLOR_DUST_DIM = new THREE.Color("#cfcfcc"); // paper dust — barely there
+const COLOR_DUST = new THREE.Color("#ababa7"); // neutral dust
+const COLOR_DATA = new THREE.Color("#7d7f83"); // graphite glint
 const COLOR_ACCENT = new THREE.Color("#0e9f6e"); // emerald signal
 
 /**

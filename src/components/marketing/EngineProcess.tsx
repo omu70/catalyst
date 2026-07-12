@@ -54,24 +54,35 @@ export function EngineProcess(): React.JSX.Element {
       className="relative z-10 mx-auto w-[min(1180px,calc(100%-2rem))] scroll-mt-28 pt-8 pb-32"
       aria-labelledby="process-heading"
     >
+      {/* Split-editorial section header — huge heading left, support right */}
       <motion.div
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="mb-12 max-w-2xl"
+        className="mb-14 grid items-end gap-8 lg:grid-cols-12"
       >
-        <motion.p variants={riseItem} className="machine-label mb-4">
-          The methodology
-        </motion.p>
-        <motion.h2
+        <div className="lg:col-span-7">
+          <motion.p variants={riseItem} className="machine-label mb-4">
+            The methodology
+          </motion.p>
+          <motion.h2
+            variants={riseItem}
+            id="process-heading"
+            className="text-display font-semibold tracking-tight text-balance text-ink"
+          >
+            Three moves from brief to{" "}
+            <span className="editorial text-lit-accent">banked learnings.</span>
+          </motion.h2>
+        </div>
+        <motion.p
           variants={riseItem}
-          id="process-heading"
-          className="text-display font-semibold tracking-tight text-balance text-ink"
+          className="text-[15px] leading-relaxed text-ink-secondary lg:col-span-4 lg:col-start-9 lg:pb-1.5"
         >
-          Three moves from brief to{" "}
-          <span className="editorial text-lit-accent">banked learnings.</span>
-        </motion.h2>
+          No black box. The engine runs the same discipline elite creative
+          strategists charge retainers for — codified, scored, and finished
+          in ninety seconds.
+        </motion.p>
       </motion.div>
 
       <div className="grid gap-6 md:grid-cols-3">

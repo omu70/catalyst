@@ -25,16 +25,12 @@ import { riseItem, staggerContainer } from "@/lib/motion/variants";
    just computed this".
    ========================================================================== */
 
-/** Perspective tilt — static depth cue, tuned to catch the beam light. */
-const TILT_TRANSFORM = "perspective(1200px) rotateY(-6deg) rotateX(2deg)";
-
 export function StrategyConsole(): React.JSX.Element {
   return (
     <motion.div
       variants={staggerContainer}
       initial="hidden"
       animate="visible"
-      style={{ transform: TILT_TRANSFORM }}
       className="glass-panel w-full rounded-[--radius-panel] p-1.5"
     >
       {/* Header rail */}

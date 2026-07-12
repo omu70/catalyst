@@ -138,6 +138,8 @@ export type CreativeUniverse = z.infer<typeof CreativeUniverseSchema>;
 export interface StrategySuccessResponse {
   ok: true;
   universe: CreativeUniverse;
+  /** Persisted analysis id — present when the backend is connected. */
+  analysisId?: string;
 }
 
 export interface StrategyErrorResponse {

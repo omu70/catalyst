@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 
 import { isAIProviderError, type AIErrorCode } from "@/lib/ai/types";
 import { generateCreativeUniverse } from "@/lib/services/strategy-service";
+import { saveAnalysis } from "@/lib/services/analysis-repository";
+import { checkRateLimit } from "@/lib/utils/rate-limit";
 import {
   StrategyInputSchema,
   type StrategyResponse,
@@ -21,6 +23,9 @@ import {
 
 export const runtime = "nodejs";
 export const maxDuration = 120;
+
+/** Per-client budget: 5 generations per 10 minutes protects AI spend. */
+const RATE_LIMIT = { limit: 5, windowMs: 10 * 60 * 1000 } as const;
 
 /** AIErrorCode → HTTP status. Single source for the route's error surface. */
 const ERROR_STATUS: Record<AIErrorCode, number> = {
@@ -42,6 +47,23 @@ const ERROR_MESSAGE: Record<AIErrorCode, string> = {
 };
 
 export async function POST(request: Request): Promise<NextResponse<StrategyResponse>> {
+  /* 0 · Rate limit — keyed by forwarded client IP. */
+  const clientKey =
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+  const rate = checkRateLimit(clientKey, RATE_LIMIT);
+  if (!rate.allowed) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: { code: "rate_limited", message: ERROR_MESSAGE.rate_limited },
+      } satisfies StrategyResponse,
+      {
+        status: 429,
+        headers: { "Retry-After": String(rate.retryAfterSeconds) },
+      },
+    );
+  }
+
   /* 1 · Parse body — malformed JSON is a client error, not a crash. */
   let body: unknown;
   try {
@@ -79,9 +101,22 @@ export async function POST(request: Request): Promise<NextResponse<StrategyRespo
 
   /* 3 · Generate — all failures arrive as AIProviderError with stable codes. */
   try {
+    const startedAt = Date.now();
     const universe = await generateCreativeUniverse(parsed.data);
+
+    /* 4 · Persist (non-fatal) — the customer gets their result regardless. */
+    const analysisId = await saveAnalysis(parsed.data, universe, {
+      provider: process.env.AI_PROVIDER ?? "gemini",
+      model: process.env.GEMINI_MODEL ?? "gemini-2.5-flash",
+      generationMs: Date.now() - startedAt,
+    });
+
     return NextResponse.json(
-      { ok: true, universe } satisfies StrategyResponse,
+      {
+        ok: true,
+        universe,
+        ...(analysisId ? { analysisId } : {}),
+      } satisfies StrategyResponse,
       { status: 200 },
     );
   } catch (error) {

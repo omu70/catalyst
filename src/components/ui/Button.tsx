@@ -19,10 +19,11 @@ type ButtonVariant = "primary" | "glass" | "ghost";
 type ButtonSize = "md" | "lg";
 
 const VARIANT_STYLES: Record<ButtonVariant, string> = {
-  /** Ember-filled — the one high-emphasis action per view. */
-  primary:
-    "bg-accent text-void font-semibold shadow-glow-accent hover:bg-accent-bright",
-  /** Frosted secondary — sits on glass panels and dark canvas alike. */
+  /** Ink pill — the reference-language primary. On light surfaces it's a
+      near-black pill; inside .surface-dark, ink flips light and it becomes
+      the white pill of the FoF pattern. Pair with <ButtonChip>. */
+  primary: "bg-ink text-void font-semibold shadow-panel hover:opacity-90",
+  /** Frosted secondary — sits on glass panels and any canvas. */
   glass:
     "glass-panel text-ink hover:bg-glass-bright hover:border-line-strong",
   /** Bare — inline/tertiary actions, nav items. */
@@ -30,9 +31,29 @@ const VARIANT_STYLES: Record<ButtonVariant, string> = {
 };
 
 const SIZE_STYLES: Record<ButtonSize, string> = {
-  md: "h-10 px-4 text-sm gap-2",
-  lg: "h-12 px-6 text-[15px] gap-2.5",
+  md: "h-10 pl-4 pr-1.5 text-sm gap-2.5 [&:not(:has([data-chip]))]:pr-4",
+  lg: "h-12 pl-6 pr-2 text-[15px] gap-3 [&:not(:has([data-chip]))]:pr-6",
 };
+
+/**
+ * <ButtonChip /> — the circular icon chip that terminates primary CTAs
+ * (the "Get started ⊙→" pattern from the reference language). Renders in
+ * the button's void color so it inverts correctly on both surfaces.
+ */
+export function ButtonChip({
+  children,
+}: {
+  children: React.ReactNode;
+}): React.JSX.Element {
+  return (
+    <span
+      data-chip
+      className="grid size-7 shrink-0 place-items-center rounded-full bg-void text-ink"
+    >
+      {children}
+    </span>
+  );
+}
 
 export interface ButtonProps
   extends Omit<HTMLMotionProps<"button">, "children">,
