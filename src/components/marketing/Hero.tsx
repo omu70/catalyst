@@ -89,7 +89,7 @@ export function Hero(): React.JSX.Element {
             {/* Eyebrow — machine voice sets the instrument tone */}
             <motion.div variants={popItem}>
               <span className="glass-panel inline-flex items-center gap-2.5 rounded-full px-4 py-1.5">
-                <span className="animate-beacon size-1.5 rounded-full bg-ember" />
+                <span className="animate-beacon size-1.5 rounded-full bg-accent" />
                 <span className="machine-label text-ink-secondary">
                   Creative Intelligence · Meta Ads
                 </span>
@@ -104,8 +104,8 @@ export function Hero(): React.JSX.Element {
             className="mt-8 max-w-2xl text-display font-semibold tracking-tight text-ink opacity-0 md:text-display-xl"
           >
             Know your next winning ad{" "}
-            <span className="editorial text-molten">before</span> you spend a{" "}
-            <span className="editorial text-brass-bright">dollar.</span>
+            <span className="editorial text-lit-accent">before</span> you spend a{" "}
+            <span className="editorial text-data-bright">dollar.</span>
           </h1>
 
           <motion.div

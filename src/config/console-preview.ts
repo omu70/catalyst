@@ -37,8 +37,8 @@ export const CONSOLE_FOOTER = {
 
 /** Chip styling per priority — semantic, resolved from design tokens. */
 export const PRIORITY_STYLES: Record<TestingPriority, string> = {
-  scale: "bg-ember-ghost text-ember-bright",
-  test: "bg-brass-ghost text-brass-bright",
+  scale: "bg-accent-ghost text-accent-bright",
+  test: "bg-data-ghost text-data-bright",
   iterate: "bg-glass-bright text-ink-secondary",
   watch: "bg-glass text-ink-tertiary",
 };

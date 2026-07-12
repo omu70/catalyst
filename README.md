@@ -2,7 +2,7 @@
 
 **The Creative Intelligence Platform** — an AI system that decodes your product, your customer, and your creative universe, then hands your Meta ads team the exact testing roadmap to run next.
 
-**Art direction: Molten Obsidian.** Warm charcoal blacks (zero blue cast), ivory ink, ember + brass accents used semantically, Instrument Serif italics against Geist, and a forge-light atmosphere — a precision instrument, not an AI template.
+**Art direction: Emerald Ledger · Daylight.** Warm paper canvas, green-cast near-black ink, emerald + bronze accents used semantically, Instrument Serif italics against Geist — a printed private-banking ledger, not an AI template. Tokens are semantic (`accent`/`data`/`ink`/`line`): swapping the entire palette (or flipping back to dark) touches only the `@theme` block in `globals.css`.
 
 ---
 
@@ -67,6 +67,20 @@ src/
 
 ## Roadmap
 
-- **Phase 1 — Foundation & bespoke UI** ✅ *(this commit)* design tokens, motion grammar, WebGL atmosphere, navbar, hero.
-- **Phase 2 — The Gemini Brain** `/api/generate-strategy` route, provider-agnostic AI service, structured JSON "Creative Universe" schema, input validation, full error taxonomy.
-- **Phase 3 — Intelligence Dashboard** `<CreativeMatrix />`, `<TestingRoadmap />`, understanding cards, staggered data-resolve choreography.
+- **Phase 1 — Foundation & bespoke UI** ✅ design tokens, motion grammar (Framer + GSAP SplitText), WebGL atmosphere, navbar, hero, strategy console.
+- **Phase 2 — The Brain** ✅ `/api/generate-strategy` (zod-validated, typed error taxonomy), provider-agnostic AI layer (`AIProvider` seam), Gemini adapter with native JSON mode, mock adapter for dev/CI, the Creative Strategist prompt framework, 90s timeout + one corrective retry on schema mismatch.
+- **Phase 3 — Intelligence Dashboard** `<CreativeMatrix />`, `<TestingRoadmap />`, understanding cards, input engine wired to the API, staggered data-resolve choreography.
+
+### Trying the engine now
+
+```bash
+# Without a key (deterministic fixture):
+AI_PROVIDER=mock npm run dev
+
+# With Gemini (get a key at aistudio.google.com):
+echo "GEMINI_API_KEY=your_key" >> .env.local && npm run dev
+
+curl -X POST http://localhost:3000/api/generate-strategy \
+  -H "Content-Type: application/json" \
+  -d '{"productDetails":"<what you sell, price, differentiator>","targetAudience":"<who buys it>"}'
+```

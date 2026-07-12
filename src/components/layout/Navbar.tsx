@@ -31,9 +31,9 @@ export function Navbar(): React.JSX.Element {
           className="flex items-center gap-2.5 text-ink"
           aria-label={`${SITE.name} home`}
         >
-          <span className="relative flex size-6 items-center justify-center rounded-md bg-ember-ghost">
-            <Command className="size-3.5 text-ember-bright" strokeWidth={2.25} />
-            <span className="animate-beacon absolute -top-0.5 -right-0.5 size-1.5 rounded-full bg-brass" />
+          <span className="relative flex size-6 items-center justify-center rounded-md bg-accent-ghost">
+            <Command className="size-3.5 text-accent-bright" strokeWidth={2.25} />
+            <span className="animate-beacon absolute -top-0.5 -right-0.5 size-1.5 rounded-full bg-data" />
           </span>
           <span className="text-[15px] font-semibold tracking-tight">
             {SITE.name}

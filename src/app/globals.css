@@ -1,55 +1,57 @@
 @import "tailwindcss";
 
 /* ============================================================================
-   CATALYST — Design Foundation · Art direction: "MOLTEN OBSIDIAN"
+   CATALYST — Design Foundation · Art direction: "EMERALD LEDGER · DAYLIGHT"
    ----------------------------------------------------------------------------
-   Warm charcoal blacks (zero blue cast), ivory ink, and two accents used
+   Warm paper canvas, near-black green-cast ink, and two accents used
    semantically:
-     - ember (molten orange) → primary action, heat, performance
-     - brass (machined gold) → data, telemetry, craft details
-   Editorial serif italics (Instrument Serif) punctuate the Geist system —
-   the tension between machine-mono and editorial-serif IS the brand voice.
+     - accent (emerald) → live signal, primary actions, growth/ROAS
+     - data   (bronze)  → telemetry, craft details, secondary emphasis
+   Editorial serif italics (Instrument Serif) punctuate the Geist system.
+   Mood: a printed private-banking ledger, set in daylight.
 
-   Every visual decision in the product resolves to a token declared here.
-   No component may introduce ad-hoc hex values, shadows, or easing curves.
+   TOKENS ARE SEMANTIC: components reference roles (accent/data/ink/line),
+   never hues. Swapping the entire palette touches only this @theme block.
+   Light-mode physics: elevation comes from SHADOW (not glow), accents darken
+   (not brighten) for contrast on paper.
    ========================================================================== */
 
 @theme {
   /* --------------------------------------------------------------------
-     COLOR SYSTEM — warm obsidian depths
+     COLOR SYSTEM — daylight ledger
      -------------------------------------------------------------------- */
 
-  /* Canvas depths — three z-levels, all warm-shifted (no blue anywhere) */
-  --color-void: #0b0a08; /* page background — deepest layer           */
-  --color-abyss: #121008; /* raised regions, panels                     */
-  --color-vault: #1a1712; /* highest opaque surface (menus, popovers)   */
+  /* Canvas depths — three z-levels of warm paper (void = deepest layer) */
+  --color-void: #f4f2ea; /* page background — warm paper               */
+  --color-abyss: #faf9f4; /* raised regions, panels                      */
+  --color-vault: #ffffff; /* highest surface (menus, popovers, cards)    */
 
-  /* Ink — warm ivory hierarchy (never pure white) */
-  --color-ink: #f4efe4; /* headlines                                  */
-  --color-ink-secondary: #a89f8f; /* body copy                                  */
-  --color-ink-tertiary: #6f6759; /* captions, meta, placeholders               */
-  --color-ink-faint: #3f3a31; /* disabled, decorative glyphs                */
+  /* Ink — green-cast near-black hierarchy (never pure black) */
+  --color-ink: #16211a; /* headlines                                   */
+  --color-ink-secondary: #4c584f; /* body copy                                   */
+  --color-ink-tertiary: #7d857b; /* captions, meta, placeholders                */
+  --color-ink-faint: #b7bcb0; /* disabled, decorative glyphs                 */
 
-  /* Structure — hairlines & glass, warm-tinted alpha */
-  --color-line: rgb(244 239 228 / 0.08);
-  --color-line-strong: rgb(244 239 228 / 0.16);
-  --color-glass: rgb(244 239 228 / 0.03);
-  --color-glass-bright: rgb(244 239 228 / 0.06);
+  /* Structure — hairlines & glass, ink-tinted / white alpha */
+  --color-line: rgb(22 33 26 / 0.1);
+  --color-line-strong: rgb(22 33 26 / 0.18);
+  --color-glass: rgb(255 255 255 / 0.55);
+  --color-glass-bright: rgb(255 255 255 / 0.82);
 
-  /* Accent · EMBER — molten orange (primary action / heat / performance) */
-  --color-ember: #ff5c1f;
-  --color-ember-bright: #ff8a50;
-  --color-ember-deep: #b83a08;
-  --color-ember-ghost: rgb(255 92 31 / 0.12);
+  /* Accent · EMERALD — live signal (primary action / growth / ROAS) */
+  --color-accent: #0e9f6e;
+  --color-accent-bright: #10b981;
+  --color-accent-deep: #05704a;
+  --color-accent-ghost: rgb(14 159 110 / 0.1);
 
-  /* Accent · BRASS — machined gold (data / telemetry / craft) */
-  --color-brass: #c9a96e;
-  --color-brass-bright: #e6c990;
-  --color-brass-ghost: rgb(201 169 110 / 0.12);
+  /* Data · BRONZE — telemetry, craft, secondary emphasis */
+  --color-data: #9a7734;
+  --color-data-bright: #b18a3f;
+  --color-data-ghost: rgb(154 119 52 / 0.12);
 
   /* Status */
-  --color-critical: #ff5c48;
-  --color-positive: #b7c98a;
+  --color-critical: #d43d2a;
+  --color-warning: #9a7734;
 
   /* --------------------------------------------------------------------
      TYPOGRAPHY — three voices, strict roles:
@@ -83,14 +85,14 @@
   --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
 
   /* --------------------------------------------------------------------
-     DEPTH — warm glow elevation (dark UIs elevate with light, not shade)
+     DEPTH — shadow elevation (light UIs elevate with shade, not glow)
      -------------------------------------------------------------------- */
-  --shadow-glow-ember: 0 0 0 1px rgb(255 92 31 / 0.3),
-    0 8px 40px -8px rgb(255 92 31 / 0.5);
-  --shadow-glow-brass: 0 0 0 1px rgb(201 169 110 / 0.25),
-    0 8px 40px -8px rgb(201 169 110 / 0.4);
-  --shadow-panel: 0 1px 0 0 rgb(244 239 228 / 0.07) inset,
-    0 24px 48px -24px rgb(0 0 0 / 0.85);
+  --shadow-glow-accent: 0 1px 2px rgb(5 112 74 / 0.35),
+    0 10px 28px -10px rgb(14 159 110 / 0.55);
+  --shadow-glow-data: 0 1px 2px rgb(154 119 52 / 0.3),
+    0 10px 28px -10px rgb(154 119 52 / 0.45);
+  --shadow-panel: 0 1px 0 0 rgb(255 255 255 / 0.9) inset,
+    0 1px 2px rgb(22 33 26 / 0.05), 0 20px 44px -20px rgb(22 33 26 / 0.18);
 
   --radius-panel: 1.25rem;
   --radius-control: 0.625rem;
@@ -105,7 +107,7 @@
   }
 
   html {
-    color-scheme: dark;
+    color-scheme: light;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -118,10 +120,10 @@
     overflow-x: clip;
   }
 
-  /* Ember selection — small detail, large perceived quality */
+  /* Accent selection — small detail, large perceived quality */
   ::selection {
-    background: var(--color-ember);
-    color: var(--color-void);
+    background: var(--color-accent);
+    color: #ffffff;
   }
 
   /* Minimal instrument-panel scrollbar */
@@ -139,7 +141,7 @@
 
   /* Accessible focus — visible ring for keyboard navigation only */
   :focus-visible {
-    outline: 2px solid var(--color-ember);
+    outline: 2px solid var(--color-accent);
     outline-offset: 3px;
     border-radius: 4px;
   }
@@ -149,7 +151,7 @@
    BESPOKE UTILITIES — the reusable visual vocabulary of Catalyst
    ========================================================================== */
 
-/* Glass panel: blur + warm alpha fill + top-edge light catch */
+/* Glass panel: blur + alpha fill + top-edge light catch */
 @utility glass-panel {
   background: linear-gradient(
     180deg,
@@ -175,7 +177,7 @@
 }
 
 /* Editorial accent — the serif-italic voice, reserved for single words
-   inside display headlines. Slightly oversized to optically match Geist. */
+   inside display headlines. */
 @utility editorial {
   font-family: var(--font-serif);
   font-style: italic;
@@ -183,10 +185,15 @@
   letter-spacing: -0.01em;
 }
 
-/* Molten text — ember-lit accent words */
-@utility text-molten {
-  color: var(--color-ember-bright);
-  text-shadow: 0 0 32px rgb(255 92 31 / 0.45);
+/* Lit text — accent words inside headlines. On paper, glow becomes a
+   whisper: color carries the emphasis, the shadow is barely-there warmth. */
+@utility text-lit-accent {
+  color: var(--color-accent);
+  text-shadow: 0 1px 24px rgb(14 159 110 / 0.18);
+}
+@utility text-lit-data {
+  color: var(--color-data);
+  text-shadow: 0 1px 24px rgb(154 119 52 / 0.15);
 }
 
 /* Machine label — uppercase mono microcopy (section eyebrows, data labels) */
@@ -208,7 +215,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.028;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -216,8 +223,8 @@
    AMBIENT KEYFRAMES — transform/opacity only (GPU-composited, no layout)
    ========================================================================== */
 
-/* Forge drift: the wide light beams breathing across the canvas */
-@keyframes forge-drift {
+/* Beam drift: the wide light fields breathing across the canvas */
+@keyframes beam-drift {
   0%,
   100% {
     transform: translate3d(-3%, 0, 0) scaleX(1);
@@ -242,12 +249,12 @@
   }
 }
 
-.animate-forge {
-  animation: forge-drift 22s var(--ease-in-out-soft) infinite;
+.animate-beam {
+  animation: beam-drift 22s var(--ease-in-out-soft) infinite;
   will-change: transform, opacity;
 }
-.animate-forge-slow {
-  animation: forge-drift 34s var(--ease-in-out-soft) infinite reverse;
+.animate-beam-slow {
+  animation: beam-drift 34s var(--ease-in-out-soft) infinite reverse;
   will-change: transform, opacity;
 }
 .animate-beacon {
@@ -256,8 +263,8 @@
 
 /* Respect user motion preferences — ambient loops halt entirely */
 @media (prefers-reduced-motion: reduce) {
-  .animate-forge,
-  .animate-forge-slow,
+  .animate-beam,
+  .animate-beam-slow,
   .animate-beacon {
     animation: none;
   }

@@ -21,7 +21,7 @@ type ButtonSize = "md" | "lg";
 const VARIANT_STYLES: Record<ButtonVariant, string> = {
   /** Ember-filled — the one high-emphasis action per view. */
   primary:
-    "bg-ember text-void font-semibold shadow-glow-ember hover:bg-ember-bright",
+    "bg-accent text-void font-semibold shadow-glow-accent hover:bg-accent-bright",
   /** Frosted secondary — sits on glass panels and dark canvas alike. */
   glass:
     "glass-panel text-ink hover:bg-glass-bright hover:border-line-strong",

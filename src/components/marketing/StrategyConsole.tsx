@@ -43,7 +43,7 @@ export function StrategyConsole(): React.JSX.Element {
         className="flex items-center justify-between px-4 pt-3 pb-3.5"
       >
         <div className="flex items-center gap-2.5">
-          <span className="animate-beacon size-1.5 rounded-full bg-ember" />
+          <span className="animate-beacon size-1.5 rounded-full bg-accent" />
           <span className="machine-label text-ink-secondary">
             {CONSOLE_HEADER.title}
           </span>
@@ -62,7 +62,7 @@ export function StrategyConsole(): React.JSX.Element {
             {/* Rank — mono, brass for the leader */}
             <span
               className={`w-5 shrink-0 font-mono text-xs ${
-                index === 0 ? "text-brass" : "text-ink-faint"
+                index === 0 ? "text-data" : "text-ink-faint"
               }`}
             >
               {String(index + 1).padStart(2, "0")}
@@ -86,7 +86,7 @@ export function StrategyConsole(): React.JSX.Element {
                   transition={{ ...SPRING_SMOOTH, delay: 0.9 + index * 0.08 }}
                   style={{ originX: 0 }}
                   className={`h-full ${
-                    angle.priority === "scale" ? "bg-ember" : "bg-brass/70"
+                    angle.priority === "scale" ? "bg-accent" : "bg-data/70"
                   }`}
                 />
               </div>
@@ -108,7 +108,7 @@ export function StrategyConsole(): React.JSX.Element {
         className="flex items-center justify-between px-4 pt-3.5 pb-2.5"
       >
         <span className="machine-label">{CONSOLE_FOOTER.label}</span>
-        <span className="font-mono text-xs text-brass">
+        <span className="font-mono text-xs text-data">
           {CONSOLE_FOOTER.value}
         </span>
       </motion.div>

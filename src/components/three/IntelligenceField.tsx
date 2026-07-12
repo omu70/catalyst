@@ -5,10 +5,10 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
 /* ============================================================================
-   <IntelligenceField /> — the "forge atmosphere" WebGL layer.
+   <IntelligenceField /> — the "ledger atmosphere" WebGL layer.
 
    Art direction (Molten Obsidian): NOT a starfield. A sparse drift of warm
-   dust motes and ember sparks suspended in the light beams — the atmosphere
+   dust motes and signal glints suspended in the light beams — the atmosphere
    of a machine shop at night. Low density, warm palette, large soft sprites.
 
    Performance contract:
@@ -33,16 +33,16 @@ const FIELD = {
   /** Lerp factor for parallax easing (per-frame smoothing). */
   PARALLAX_EASE: 0.03,
   NODE_SIZE: 0.16,
-  /** Fraction of motes that are hot ember sparks vs neutral dust. */
-  EMBER_RATIO: 0.16,
-  /** Fraction of motes that are brass glints. */
-  BRASS_RATIO: 0.22,
+  /** Fraction of motes that are emerald signals vs neutral dust. */
+  ACCENT_RATIO: 0.16,
+  /** Fraction of motes that are champagne glints. */
+  DATA_RATIO: 0.22,
 } as const;
 
-const COLOR_DUST_DIM = new THREE.Color("#3f3a31"); // ink-faint — barely there
-const COLOR_DUST = new THREE.Color("#6f6759"); // warm dust
-const COLOR_BRASS = new THREE.Color("#c9a96e"); // machined gold glint
-const COLOR_EMBER = new THREE.Color("#ff5c1f"); // hot spark
+const COLOR_DUST_DIM = new THREE.Color("#c9cdc0"); // paper dust — barely there
+const COLOR_DUST = new THREE.Color("#a9b0a0"); // cool dust
+const COLOR_DATA = new THREE.Color("#b18a3f"); // bronze glint
+const COLOR_ACCENT = new THREE.Color("#0e9f6e"); // emerald signal
 
 /**
  * Deterministic PRNG (mulberry32). Seeded so the atmosphere renders
@@ -106,13 +106,13 @@ function buildFieldGeometry(): {
     positions[i * 3 + 1] = radius * Math.cos(phi) * FIELD.Y_FLATTEN;
     positions[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
 
-    // Palette: mostly dim warm dust, a scattering of brass glints,
-    // and rare hot ember sparks that carry the brand accent.
+    // Palette: mostly dim warm dust, a scattering of champagne glints,
+    // and rare emerald signals that carry the brand accent.
     const roll = prng();
-    if (roll < FIELD.EMBER_RATIO) {
-      tint.copy(COLOR_EMBER);
-    } else if (roll < FIELD.EMBER_RATIO + FIELD.BRASS_RATIO) {
-      tint.copy(COLOR_BRASS);
+    if (roll < FIELD.ACCENT_RATIO) {
+      tint.copy(COLOR_ACCENT);
+    } else if (roll < FIELD.ACCENT_RATIO + FIELD.DATA_RATIO) {
+      tint.copy(COLOR_DATA);
     } else {
       tint.lerpColors(COLOR_DUST_DIM, COLOR_DUST, prng());
     }
@@ -158,9 +158,11 @@ function FieldPoints(): React.JSX.Element {
           size={FIELD.NODE_SIZE}
           vertexColors
           transparent
-          opacity={0.7}
+          // Light theme: NORMAL blending — additive light is invisible on
+          // paper. Motes read as suspended pigment instead of glow.
+          opacity={0.5}
           depthWrite={false}
-          blending={THREE.AdditiveBlending}
+          blending={THREE.NormalBlending}
           sizeAttenuation
         />
       </points>
