@@ -77,16 +77,26 @@ export const CREATIVE_FORMATS = [
 export const CreativeFormatSchema = z.enum(CREATIVE_FORMATS);
 export type CreativeFormat = z.infer<typeof CreativeFormatSchema>;
 
-/** One creative angle in the universe — the PRD's core card unit. */
+/**
+ * One creative HYPOTHESIS — the core unit of Catalyst intelligence.
+ * Not an "angle": a falsifiable claim a media buyer can prove wrong with
+ * a test. `statement` asserts what beats what for whom; `prediction`
+ * names the observable outcome that would confirm it.
+ */
 export const CreativeAngleSchema = z.object({
   title: z.string().min(3).max(120),
+  /** Falsifiable claim: "For [audience], [message A] beats [message B]". */
+  statement: z.string().min(20).max(400),
+  /** The psychological mechanism — WHY this should win. */
   whyItWorks: z.string().min(10).max(600),
+  /** Observable confirmation: metric + direction the test should show. */
+  prediction: z.string().min(10).max(300),
   targetAudience: z.string().min(5).max(300),
-  /** The single dominant emotion the angle triggers. */
+  /** The single dominant emotion the hypothesis triggers. */
   emotion: z.string().min(3).max(60),
   format: CreativeFormatSchema,
   testingPriority: TestingPrioritySchema,
-  /** Awareness stage this angle speaks to — powers the Creative Matrix. */
+  /** Awareness stage this hypothesis speaks to — powers the Matrix. */
   awarenessStage: AwarenessStageSchema,
   /** Opportunity score 0–100 — powers ranking + bar visualizations. */
   score: z.number().int().min(0).max(100),
@@ -95,12 +105,18 @@ export const CreativeAngleSchema = z.object({
 });
 export type CreativeAngle = z.infer<typeof CreativeAngleSchema>;
 
-/** Product & customer understanding — the PRD's understanding cards. */
+/** Product & customer psychology — the understanding cards. */
 export const ProductUnderstandingSchema = z.object({
   /** Jobs-To-Be-Done — the functional/emotional/social jobs customers hire the product for. */
   jobsToBeDone: z.array(z.string().min(5).max(300)).min(2).max(6),
   corePainPoints: z.array(z.string().min(5).max(300)).min(2).max(6),
   desiredOutcomes: z.array(z.string().min(5).max(300)).min(2).max(6),
+  /** Objections — the reasons people DON'T buy, each a counter-message target. */
+  objections: z.array(z.string().min(5).max(300)).min(2).max(6),
+  /** Purchase triggers — the moments/events that flip consideration to buying. */
+  purchaseTriggers: z.array(z.string().min(5).max(300)).min(2).max(6),
+  /** Hidden desires — what buyers want but won't say out loud. */
+  hiddenDesires: z.array(z.string().min(5).max(300)).min(2).max(6),
   /** Where the bulk of the addressable audience sits today. */
   dominantAwarenessStage: AwarenessStageSchema,
   awarenessRationale: z.string().min(10).max(500),
@@ -150,7 +166,8 @@ export interface StrategyErrorResponse {
       | "invalid_input"
       | "provider_unavailable"
       | "provider_timeout"
-      | "rate_limited"
+      | "rate_limited" // the AI provider's quota (e.g. Gemini free tier)
+      | "app_rate_limited" // Catalyst's own per-client budget
       | "invalid_response"
       | "not_configured"
       | "internal";

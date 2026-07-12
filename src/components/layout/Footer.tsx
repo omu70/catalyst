@@ -10,7 +10,7 @@ import { NAV_LINKS, SITE } from "@/config/site";
 
 export function Footer(): React.JSX.Element {
   return (
-    <footer className="relative z-10 mx-auto w-[min(1180px,calc(100%-2rem))] pb-10">
+    <footer className="print:hidden relative z-10 mx-auto w-[min(1180px,calc(100%-2rem))] pb-10">
       <div className="hairline-x mb-10" />
 
       <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">

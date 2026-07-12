@@ -9,6 +9,7 @@ import { StrategyInputSchema } from "@/types/creative-universe";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils/cn";
+import { Eye } from "lucide-react";
 
 /* ============================================================================
    <InputEngine /> — the intake instrument.
@@ -25,6 +26,7 @@ const FIELD_BASE_CLASSES =
 
 export function InputEngine(): React.JSX.Element {
   const generate = useStrategyStore((s) => s.generate);
+  const loadSample = useStrategyStore((s) => s.loadSample);
   const status = useStrategyStore((s) => s.status);
 
   const [shopifyUrl, setShopifyUrl] = useState("");
@@ -145,7 +147,10 @@ export function InputEngine(): React.JSX.Element {
           )}
         </motion.div>
 
-        <motion.div variants={riseItem} className="mt-2">
+        <motion.div
+          variants={riseItem}
+          className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center"
+        >
           <Button
             type="submit"
             variant="primary"
@@ -155,6 +160,17 @@ export function InputEngine(): React.JSX.Element {
           >
             Build my Creative Universe
             <ArrowRight className="size-4" strokeWidth={2.25} />
+          </Button>
+          {/* Zero-friction first value: see the quality bar before committing */}
+          <Button
+            type="button"
+            variant="ghost"
+            size="lg"
+            disabled={isLoading}
+            onClick={loadSample}
+          >
+            <Eye className="size-4" strokeWidth={2.25} />
+            See a sample report
           </Button>
         </motion.div>
       </div>

@@ -354,3 +354,46 @@
     scroll-behavior: auto;
   }
 }
+
+/* ============================================================================
+   PRINT — "Export brief" renders the strategy as a clean paper document.
+   Dark surfaces flip to ink-on-white; chrome, atmosphere, and controls
+   disappear; cards break cleanly across pages.
+   ========================================================================== */
+@media print {
+  :root,
+  .surface-dark {
+    --color-void: #ffffff;
+    --color-abyss: #ffffff;
+    --color-vault: #ffffff;
+    --color-ink: #111213;
+    --color-ink-secondary: #3f4144;
+    --color-ink-tertiary: #6b6d70;
+    --color-ink-faint: #a5a7aa;
+    --color-line: rgb(17 18 19 / 0.2);
+    --color-line-strong: rgb(17 18 19 / 0.35);
+    --color-glass: transparent;
+    --color-glass-bright: transparent;
+    --shadow-panel: none;
+    --shadow-glow-accent: none;
+  }
+  body {
+    background: #ffffff !important;
+  }
+  .glass-panel,
+  .glass-nav {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    border: 1px solid rgb(17 18 19 / 0.2) !important;
+    break-inside: avoid;
+  }
+  .grain::after,
+  .animate-beam,
+  .animate-beam-slow {
+    display: none !important;
+  }
+  article {
+    break-inside: avoid;
+  }
+}

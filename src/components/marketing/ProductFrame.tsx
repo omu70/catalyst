@@ -62,7 +62,7 @@ export function ProductFrame(): React.JSX.Element {
                   </span>
                 </div>
                 <span className="machine-label">
-                  Output shown is a real engine run
+                  Sample output · fictional cookware brand
                 </span>
               </motion.div>
 

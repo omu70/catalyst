@@ -19,14 +19,14 @@ export interface NavLink {
 export const NAV_LINKS: readonly NavLink[] = [
   { label: "Methodology", href: "/#process" },
   { label: "Analyze", href: "/analyze" },
-  { label: "Pricing", href: "/#pricing" },
+  { label: "History", href: "/history" },
 ] as const;
 
 /**
- * Hero telemetry strip — outcome-first proof points.
- * These are marketing placeholders until live aggregate metrics exist;
- * keeping them typed + centralized means swapping in real data is a
- * one-file change.
+ * Hero telemetry strip — HONEST product facts only. No invented performance
+ * claims: this product sells to professional skeptics, and one fabricated
+ * number discovered = trust gone forever. Real aggregate outcomes replace
+ * these once the learning loop has data.
  */
 export interface HeroMetric {
   readonly value: string;
@@ -34,7 +34,7 @@ export interface HeroMetric {
 }
 
 export const HERO_METRICS: readonly HeroMetric[] = [
-  { value: "-31%", label: "Median CPA delta" },
-  { value: "2.4×", label: "Creative testing velocity" },
-  { value: "48h", label: "Brief → live variant" },
+  { value: "90s", label: "Brief → tested roadmap" },
+  { value: "6–12", label: "Falsifiable hypotheses per run" },
+  { value: "4 wks", label: "Sequenced testing plan" },
 ] as const;

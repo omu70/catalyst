@@ -25,7 +25,7 @@ export function BackgroundLayer(): React.JSX.Element {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+      className="pointer-events-none fixed inset-0 z-0 overflow-hidden print:hidden"
     >
       {/* 1 · Washes — near-neutral atmosphere on the light canvas: one
              whisper of cobalt (the pop budget), one graphite shadow wash,

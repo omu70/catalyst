@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { isAIProviderError, type AIErrorCode } from "@/lib/ai/types";
 import { generateCreativeUniverse } from "@/lib/services/strategy-service";
 import { saveAnalysis } from "@/lib/services/analysis-repository";
+import { getSessionUserId } from "@/lib/db/supabase-clients";
 import { checkRateLimit } from "@/lib/utils/rate-limit";
 import {
   StrategyInputSchema,
@@ -50,21 +51,27 @@ const ERROR_MESSAGE: Record<AIErrorCode, string> = {
 };
 
 export async function POST(request: Request): Promise<NextResponse<StrategyResponse>> {
-  /* 0 · Rate limit — keyed by forwarded client IP. */
-  const clientKey =
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
-  const rate = checkRateLimit(clientKey, RATE_LIMIT);
-  if (!rate.allowed) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error: { code: "rate_limited", message: ERROR_MESSAGE.rate_limited },
-      } satisfies StrategyResponse,
-      {
-        status: 429,
-        headers: { "Retry-After": String(rate.retryAfterSeconds) },
-      },
-    );
+  /* 0 · App rate limit — keyed by forwarded client IP. Disabled in local
+     development so testing is never throttled by our own budget. */
+  if (process.env.NODE_ENV === "production") {
+    const clientKey =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+    const rate = checkRateLimit(clientKey, RATE_LIMIT);
+    if (!rate.allowed) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: {
+            code: "app_rate_limited",
+            message: `Analysis limit reached — try again in about ${Math.max(1, Math.ceil(rate.retryAfterSeconds / 60))} min.`,
+          },
+        } satisfies StrategyResponse,
+        {
+          status: 429,
+          headers: { "Retry-After": String(rate.retryAfterSeconds) },
+        },
+      );
+    }
   }
 
   /* 1 · Parse body — malformed JSON is a client error, not a crash. */
@@ -107,12 +114,19 @@ export async function POST(request: Request): Promise<NextResponse<StrategyRespo
     const startedAt = Date.now();
     const universe = await generateCreativeUniverse(parsed.data);
 
-    /* 4 · Persist (non-fatal) — the customer gets their result regardless. */
-    const analysisId = await saveAnalysis(parsed.data, universe, {
-      provider: process.env.AI_PROVIDER ?? "gemini",
-      model: process.env.GEMINI_MODEL ?? "gemini-2.5-flash",
-      generationMs: Date.now() - startedAt,
-    });
+    /* 4 · Persist (non-fatal) — the customer gets their result regardless.
+       Signed-in runs are owned by the user (history + learning loop). */
+    const userId = await getSessionUserId().catch(() => null);
+    const analysisId = await saveAnalysis(
+      parsed.data,
+      universe,
+      {
+        provider: process.env.AI_PROVIDER ?? "gemini",
+        model: process.env.GEMINI_MODEL ?? "gemini-2.5-flash",
+        generationMs: Date.now() - startedAt,
+      },
+      userId,
+    );
 
     return NextResponse.json(
       {

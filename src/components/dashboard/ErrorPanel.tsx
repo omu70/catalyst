@@ -31,8 +31,12 @@ const ERROR_COPY: Record<ErrorCode, ErrorCopy> = {
     isTimeout: true,
   },
   rate_limited: {
-    title: "The engine is at capacity",
-    body: "Too many analyses at once. Give it a moment, then retry — your input is intact.",
+    title: "The AI provider hit its quota",
+    body: "Gemini declined the request — on free-tier keys this happens after a few rapid runs. Wait a minute and retry, or enable billing on your key at aistudio.google.com for uninterrupted generation.",
+  },
+  app_rate_limited: {
+    title: "Analysis limit reached",
+    body: "To keep the engine fast for everyone, each user gets 5 analyses per 10 minutes. Your input is intact — retry shortly.",
   },
   provider_unavailable: {
     title: "The engine is unreachable",

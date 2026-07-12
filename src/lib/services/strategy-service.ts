@@ -1,5 +1,6 @@
 import { getAIProvider } from "@/lib/ai";
 import { AIProviderError } from "@/lib/ai/types";
+import { fetchStoreIntel, renderStoreIntel } from "@/lib/services/store-intel";
 import {
   STRATEGIST_SYSTEM_PROMPT,
   buildStrategistPrompt,
@@ -31,7 +32,15 @@ export async function generateCreativeUniverse(
   input: StrategyInput,
 ): Promise<CreativeUniverse> {
   const provider = getAIProvider();
-  const prompt = buildStrategistPrompt(input);
+
+  // Enrichment: read the actual storefront when a URL is given (non-fatal).
+  let storeSection: string | undefined;
+  if (input.shopifyUrl) {
+    const intel = await fetchStoreIntel(input.shopifyUrl);
+    if (intel) storeSection = renderStoreIntel(intel);
+  }
+
+  const prompt = buildStrategistPrompt(input, storeSection);
 
   const controller = new AbortController();
   const deadline = setTimeout(() => controller.abort(), GENERATION_TIMEOUT_MS);

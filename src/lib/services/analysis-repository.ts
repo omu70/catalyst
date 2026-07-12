@@ -25,6 +25,7 @@ export async function saveAnalysis(
   input: StrategyInput,
   universe: CreativeUniverse,
   telemetry: AnalysisTelemetry,
+  userId: string | null = null,
 ): Promise<string | null> {
   const supabase = getSupabaseAdmin();
   if (!supabase) return null; // persistence not configured — run stateless
@@ -40,6 +41,7 @@ export async function saveAnalysis(
         provider: telemetry.provider,
         model: telemetry.model ?? null,
         generation_ms: telemetry.generationMs,
+        user_id: userId,
       })
       .select("id")
       .single();

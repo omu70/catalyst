@@ -1,23 +1,33 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Compass, HeartCrack, Target } from "lucide-react";
+import {
+  Compass,
+  Eye,
+  HeartCrack,
+  ShieldQuestion,
+  Target,
+  Zap,
+} from "lucide-react";
 
 import type { ProductUnderstanding } from "@/types/creative-universe";
 import { STAGE_LABELS } from "@/config/universe-ui";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
 
 /* ============================================================================
-   <UnderstandingCards /> — "the engine read your customer" section.
-
-   Three soft glass cards (JTBD / pains / outcomes) + an awareness verdict
-   banner. This is the PRD's Product & Customer Understanding block.
+   <UnderstandingCards /> — full customer psychology: jobs, pains, outcomes,
+   objections, purchase triggers, hidden desires + the awareness verdict.
    ========================================================================== */
 
 interface CardSpec {
   key: keyof Pick<
     ProductUnderstanding,
-    "jobsToBeDone" | "corePainPoints" | "desiredOutcomes"
+    | "jobsToBeDone"
+    | "corePainPoints"
+    | "desiredOutcomes"
+    | "objections"
+    | "purchaseTriggers"
+    | "hiddenDesires"
   >;
   title: string;
   icon: typeof Compass;
@@ -27,6 +37,9 @@ const CARDS: readonly CardSpec[] = [
   { key: "jobsToBeDone", title: "Jobs to be done", icon: Compass },
   { key: "corePainPoints", title: "Core pain points", icon: HeartCrack },
   { key: "desiredOutcomes", title: "Desired outcomes", icon: Target },
+  { key: "objections", title: "Objections to beat", icon: ShieldQuestion },
+  { key: "purchaseTriggers", title: "Purchase triggers", icon: Zap },
+  { key: "hiddenDesires", title: "Hidden desires", icon: Eye },
 ];
 
 export function UnderstandingCards({
@@ -46,7 +59,7 @@ export function UnderstandingCards({
         01 · Customer understanding
       </motion.h2>
 
-      <div className="grid gap-5 md:grid-cols-3">
+      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {CARDS.map(({ key, title, icon: Icon }) => (
           <motion.article
             key={key}

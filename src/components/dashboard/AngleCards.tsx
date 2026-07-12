@@ -9,13 +9,15 @@ import {
   STAGE_LABELS,
 } from "@/config/universe-ui";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
+import { OutcomeTracker } from "@/components/dashboard/OutcomeTracker";
 
 /* ============================================================================
-   <AngleCards /> — the top angles in full detail: the "why", the verbatim
-   hook, and the shoot metadata. Bespoke data cards, never a table (PRD).
+   <AngleCards /> — the top HYPOTHESES in full detail: the falsifiable
+   statement, the psychology, the verbatim hook, the kill-metric prediction,
+   and the outcome tracker that feeds the learning loop.
    ========================================================================== */
 
-/** How many angles get the full-card treatment (rest live in the matrix). */
+/** How many hypotheses get the full-card treatment (rest live in the matrix). */
 const TOP_ANGLE_COUNT = 6;
 
 export function AngleCards({
@@ -36,7 +38,7 @@ export function AngleCards({
       aria-labelledby="angles-heading"
     >
       <motion.h2 variants={riseItem} id="angles-heading" className="machine-label mb-6">
-        03 · Priority angles — briefs your team can shoot this week
+        03 · Creative hypotheses — falsifiable, prioritized, shootable
       </motion.h2>
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -66,7 +68,12 @@ export function AngleCards({
             <h3 className="text-[17px] leading-snug font-semibold text-ink">
               {angle.title}
             </h3>
-            <p className="mt-2.5 text-sm leading-relaxed text-ink-secondary">
+
+            {/* The falsifiable statement — what beats what, for whom */}
+            <p className="mt-2.5 text-sm leading-relaxed font-medium text-ink">
+              {angle.statement}
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-ink-secondary">
               {angle.whyItWorks}
             </p>
 
@@ -74,6 +81,11 @@ export function AngleCards({
             <blockquote className="editorial mt-4 border-l-2 border-accent pl-4 text-[17px] leading-snug text-ink">
               “{angle.hook}”
             </blockquote>
+
+            {/* The kill-metric — how this hypothesis gets proven or killed */}
+            <p className="mt-3 rounded-xl bg-void px-3.5 py-2.5 font-mono text-xs leading-relaxed text-ink-secondary">
+              Confirm if: {angle.prediction}
+            </p>
 
             {/* Shoot metadata */}
             <div className="mt-auto flex flex-wrap gap-x-4 gap-y-1.5 pt-5">
@@ -87,6 +99,9 @@ export function AngleCards({
                 </span>
               ))}
             </div>
+
+            {/* Learning loop — mark what actually happened */}
+            <OutcomeTracker hypothesisTitle={angle.title} />
           </motion.article>
         ))}
       </div>

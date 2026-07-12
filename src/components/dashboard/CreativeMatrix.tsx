@@ -87,9 +87,11 @@ export function CreativeMatrix({
         <h2 id="matrix-heading" className="machine-label">
           02 · Creative matrix — coverage by awareness stage
         </h2>
+        {/* Coverage score is COMPUTED from the map, never model-invented */}
         <p className="font-mono text-xs text-ink-tertiary">
-          {universe.angles.length} angles mapped ·{" "}
-          {universe.missingAngleTitles.length} gaps flagged
+          {universe.angles.length} hypotheses ·{" "}
+          {STAGE_ORDER.filter((s) => universe.angles.some((a) => a.awarenessStage === s)).length}
+          /5 stages covered · {universe.missingAngleTitles.length} gaps flagged
         </p>
       </motion.div>
 

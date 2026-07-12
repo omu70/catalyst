@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { RotateCcw } from "lucide-react";
+import { Printer, RotateCcw } from "lucide-react";
 
+import type { CreativeUniverse } from "@/types/creative-universe";
 import { useStrategyStore } from "@/store/strategy-store";
 import { SPRING_CINEMATIC, SPRING_SMOOTH } from "@/lib/motion/springs";
 import { Parallax } from "@/components/motion/Parallax";
@@ -29,10 +31,33 @@ const PHASE_TRANSITION = {
   exit: { opacity: 0, y: -20 },
 } as const;
 
-export function AnalyzeView(): React.JSX.Element {
+interface AnalyzeViewProps {
+  /** A saved analysis loaded server-side (from /history), hydrated once. */
+  savedUniverse?: CreativeUniverse | null;
+  savedAnalysisId?: string | null;
+}
+
+export function AnalyzeView({
+  savedUniverse = null,
+  savedAnalysisId = null,
+}: AnalyzeViewProps): React.JSX.Element {
   const status = useStrategyStore((s) => s.status);
   const universe = useStrategyStore((s) => s.universe);
+  const isSample = useStrategyStore((s) => s.isSample);
   const reset = useStrategyStore((s) => s.reset);
+
+  // Hydrate a saved analysis exactly once (history → revisit flow).
+  useEffect(() => {
+    if (savedUniverse) {
+      useStrategyStore.setState({
+        status: "success",
+        universe: savedUniverse,
+        analysisId: savedAnalysisId,
+        isSample: false,
+        error: null,
+      });
+    }
+  }, [savedUniverse, savedAnalysisId]);
 
   return (
     <div className="relative z-10 mx-auto w-[min(1180px,calc(100%-2rem))] pt-36 pb-24">
@@ -70,7 +95,9 @@ export function AnalyzeView(): React.JSX.Element {
             <header className="mb-14 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-3xl">
                 <p className="machine-label mb-3">
-                  Creative Universe · generated
+                  {isSample
+                    ? "Sample report · fictional cookware brand"
+                    : "Creative Universe · generated"}
                 </p>
                 <h1 className="text-display font-semibold tracking-tight text-ink">
                   Your next winning ad is{" "}
@@ -80,10 +107,20 @@ export function AnalyzeView(): React.JSX.Element {
                   {universe.executiveSummary}
                 </p>
               </div>
-              <Button variant="glass" size="md" onClick={reset} className="shrink-0">
-                <RotateCcw className="size-4" strokeWidth={2.25} />
-                New analysis
-              </Button>
+              <div className="flex shrink-0 gap-3 print:hidden">
+                <Button
+                  variant="glass"
+                  size="md"
+                  onClick={() => window.print()}
+                >
+                  <Printer className="size-4" strokeWidth={2.25} />
+                  Export brief
+                </Button>
+                <Button variant="glass" size="md" onClick={reset}>
+                  <RotateCcw className="size-4" strokeWidth={2.25} />
+                  New analysis
+                </Button>
+              </div>
             </header>
 
             {/* Dashboard sections — alternating parallax speeds for depth */}
