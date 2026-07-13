@@ -45,7 +45,21 @@ export function AnalyzeView({
   const status = useStrategyStore((s) => s.status);
   const universe = useStrategyStore((s) => s.universe);
   const isSample = useStrategyStore((s) => s.isSample);
+  const input = useStrategyStore((s) => s.input);
   const reset = useStrategyStore((s) => s.reset);
+
+  // Agency reality: reports get compared across clients — every report
+  // must say WHAT was analyzed and WHEN, on screen and in the PDF export.
+  const brandLabel = isSample
+    ? "Sample report · fictional cookware brand"
+    : input
+      ? `${input.productDetails.slice(0, 64).trim()}${input.productDetails.length > 64 ? "…" : ""}`
+      : "Creative Universe";
+  const generatedOn = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 
   // Hydrate a saved analysis exactly once (history → revisit flow).
   useEffect(() => {
@@ -96,9 +110,7 @@ export function AnalyzeView({
             <header className="mb-14 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-3xl">
                 <p className="machine-label mb-3">
-                  {isSample
-                    ? "Sample report · fictional cookware brand"
-                    : "Creative Universe · generated"}
+                  {brandLabel} · {generatedOn}
                 </p>
                 <h1 className="text-display font-semibold tracking-tight text-ink">
                   Your next winning ad is{" "}
