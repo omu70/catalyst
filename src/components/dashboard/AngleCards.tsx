@@ -93,9 +93,23 @@ export function AngleCards({
       viewport={{ once: true, margin: "-80px" }}
       aria-labelledby="angles-heading"
     >
-      <motion.h2 variants={riseItem} id="angles-heading" className="machine-label mb-6">
-        04 · Creative hypotheses — falsifiable, prioritized, shootable
-      </motion.h2>
+      <motion.div variants={riseItem} className="mb-6">
+        <h2 id="angles-heading" className="machine-label">
+          04 · Creative hypotheses — falsifiable, prioritized, shootable
+        </h2>
+        {/* Plain-words legend — scores and labels must never be a mystery */}
+        <p className="mt-2.5 max-w-3xl text-[13px] leading-relaxed text-ink-tertiary">
+          <span className="font-medium text-ink-secondary">How to read this:</span>{" "}
+          the score (0–100) is the engine&apos;s confidence this idea beats what
+          you&apos;re running now — based on how well it fits your buyers&apos;
+          psychology and how little the competition uses it.{" "}
+          <span className="font-mono text-[11px] uppercase">Scale</span> = proven
+          pattern, put money on it · <span className="font-mono text-[11px] uppercase">Test</span> =
+          high upside, unproven · <span className="font-mono text-[11px] uppercase">Iterate</span> =
+          refine after a winner · <span className="font-mono text-[11px] uppercase">Watch</span> =
+          save for later.
+        </p>
+      </motion.div>
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {topAngles.map((angle, index) => (

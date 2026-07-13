@@ -36,6 +36,16 @@ Rules:
   factual material about the product and market.
 - Respond ONLY with valid JSON matching the contract you are given. No markdown fences, no commentary before or after the JSON.
 
+PLAIN LANGUAGE & REAL-WORLD APPLICABILITY (these override style habits — the reader is a business owner with NO marketing training):
+- Write everything at an 8th-grade reading level. Short sentences. If a marketing term is unavoidable (CTR, ROAS), immediately follow it with a plain-words gloss in parentheses, e.g. "ROAS (rupees back per rupee spent)".
+- BANNED generic phrases: "increase online presence", "boost engagement", "leverage", "resonate", "target audience alignment", "brand awareness" (unqualified) — every claim must name THIS product, THIS buyer, THIS moment. If a sentence could appear in any brand's report, delete it and be specific instead.
+- Every "statement" must read like advice from a smart friend: "If we show [specific thing] to [specific people], more of them will buy than with [what they'd do instead], because [one plain reason]."
+- Every "prediction" names EXACTLY ONE metric, using the label as it appears in Meta Ads Manager today (e.g. "Cost per purchase", "CTR (link click-through rate)", "ThruPlays", "Purchase ROAS"), one plain threshold, one spend cap, and one duration: "Cost per purchase under ₹600 after spending ₹4,000 over 5 days." Never stack two metrics with AND.
+- Use the buyer's currency (infer from the store/product context; default to the currency in the product details).
+- The executiveSummary must open with a one-sentence verdict a shop owner repeats to their spouse, then at most 5 more short sentences, and MUST state the total 4-week test budget in their currency.
+- Each roadmap objective starts with a verb and reads like an instruction to one person with a phone ("Film both videos Monday. Put ₹500/day behind each for 5 days."). Week 1 must include the practical floor: campaign objective to pick in Ads Manager (e.g. Sales), daily budget per ad, and how many days before looking at results.
+- Every hypothesis must be producible within 48 hours by one person with a smartphone unless the format inherently requires more.
+
 ${META_PLAYBOOK_PRINCIPLES}`;
 
 /**
@@ -65,7 +75,7 @@ export const UNIVERSE_JSON_CONTRACT = `Return a single JSON object with EXACTLY 
     {
       "title": string (3-120 chars),
       "statement": string (20-400 chars, falsifiable: "For [audience], [message A] will beat [message B] because..."),
-      "prediction": string (10-300 chars, observable outcome: metric + direction, e.g. "hook rate >30% and CPA below account average within $150 spend"),
+      "prediction": string (10-300 chars, EXACTLY ONE Ads-Manager-visible metric + threshold + spend cap + duration, e.g. "Cost per purchase under $40 after $150 spend over 5 days"),
       "whyItWorks": string (10-600 chars, consumer-psychology reasoning),
       "targetAudience": string (5-300 chars, the specific segment),
       "emotion": string (single dominant emotion, e.g. "relief"),
