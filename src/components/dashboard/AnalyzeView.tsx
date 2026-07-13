@@ -14,10 +14,11 @@ import { EngineStatus } from "@/components/dashboard/EngineStatus";
 import { ErrorPanel } from "@/components/dashboard/ErrorPanel";
 import { UnderstandingCards } from "@/components/dashboard/UnderstandingCards";
 import { StartHere } from "@/components/dashboard/StartHere";
+import { CommandBrief } from "@/components/dashboard/CommandBrief";
 import { MarketRead } from "@/components/dashboard/MarketRead";
 import { CompetitorInsights } from "@/components/dashboard/CompetitorInsights";
+import { AngleExplorer } from "@/components/dashboard/AngleExplorer";
 import { CreativeMatrix } from "@/components/dashboard/CreativeMatrix";
-import { AngleCards } from "@/components/dashboard/AngleCards";
 import { TestingRoadmap } from "@/components/dashboard/TestingRoadmap";
 
 /* ============================================================================
@@ -140,6 +141,7 @@ export function AnalyzeView({
 
             {/* Dashboard sections — alternating parallax speeds for depth */}
             <div className="flex flex-col gap-20">
+              <CommandBrief universe={universe} />
               <StartHere universe={universe} />
               <Parallax speed={0.12}>
                 <UnderstandingCards understanding={universe.productUnderstanding} />
@@ -155,9 +157,7 @@ export function AnalyzeView({
                   <CompetitorInsights insights={universe.competitorInsights} />
                 </Parallax>
               )}
-              <Parallax speed={0.12}>
-                <AngleCards universe={universe} />
-              </Parallax>
+              <AngleExplorer universe={universe} />
               <Parallax speed={0.2}>
                 <TestingRoadmap universe={universe} />
               </Parallax>
