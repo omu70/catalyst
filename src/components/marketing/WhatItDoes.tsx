@@ -13,6 +13,7 @@ import {
 
 import { LeafCard } from "@/components/motion/LeafCard";
 import { Parallax } from "@/components/motion/Parallax";
+import { TextReveal } from "@/components/motion/TextReveal";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
 
 /** Alternating parallax depths — outer columns drift, center holds. */
@@ -70,6 +71,7 @@ export function WhatItDoes(): React.JSX.Element {
       aria-labelledby="what-heading"
       className="relative z-10 mx-auto w-[min(1180px,calc(100%-2rem))] scroll-mt-28 pb-24"
     >
+      <TextReveal>
       <motion.div
         variants={staggerContainer}
         initial="hidden"
@@ -101,6 +103,7 @@ export function WhatItDoes(): React.JSX.Element {
           </span>
         </motion.p>
       </motion.div>
+      </TextReveal>
 
       <div className="grid gap-4 lg:grid-cols-[1fr_auto_1fr_auto_1fr] lg:items-stretch">
         {FLOW.map((step, i) => (

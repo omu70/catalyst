@@ -10,6 +10,7 @@ import {
 
 import { STAGE_LABELS, STAGE_ORDER } from "@/config/universe-ui";
 import { Parallax } from "@/components/motion/Parallax";
+import { TextReveal } from "@/components/motion/TextReveal";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
 
 /* ============================================================================
@@ -83,6 +84,7 @@ export function CoverageRadar(): React.JSX.Element {
       >
         {/* ————— Copy — drifts on its own parallax layer ————— */}
         <Parallax speed={0.18} className="lg:col-span-5">
+          <TextReveal>
           <motion.p variants={riseItem} className="machine-label mb-4">
             Full-circle coverage
           </motion.p>
@@ -115,6 +117,7 @@ export function CoverageRadar(): React.JSX.Element {
               </li>
             ))}
           </motion.ul>
+          </TextReveal>
         </Parallax>
 
         {/* ————— The radar — the dial turns as the reader scrolls ————— */}

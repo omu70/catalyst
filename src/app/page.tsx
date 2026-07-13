@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 
 import { Navbar } from "@/components/layout/Navbar";
 import { ChapterIndex } from "@/components/layout/ChapterIndex";
+import { ChapterDivider } from "@/components/layout/ChapterDivider";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
+import { HypothesisMarquee } from "@/components/marketing/HypothesisMarquee";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/marketing/Hero";
 import { ProductFrame } from "@/components/marketing/ProductFrame";
@@ -32,11 +34,17 @@ export default function LandingPage(): React.JSX.Element {
       <Navbar />
       <ChapterIndex />
       <Hero />
+      <ChapterDivider index="01" label="What it does" />
       <WhatItDoes />
       <CoverageRadar />
+      <ChapterDivider index="02" label="Sample output" />
       <ProductFrame />
+      <HypothesisMarquee />
+      <ChapterDivider index="03" label="Methodology" />
       <EngineProcess />
+      <ChapterDivider index="04" label="Pricing" />
       <Pricing />
+      <ChapterDivider index="05" label="FAQ" />
       <FAQ />
       <CTABand />
       <Footer />

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, Check } from "lucide-react";
 
 import { LeafCard } from "@/components/motion/LeafCard";
+import { TextReveal } from "@/components/motion/TextReveal";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
 import { ButtonChip, ButtonLink } from "@/components/ui/Button";
 
@@ -35,6 +36,7 @@ export function Pricing(): React.JSX.Element {
       aria-labelledby="pricing-heading"
       className="relative z-10 mx-auto w-[min(1180px,calc(100%-2rem))] scroll-mt-28 pb-24"
     >
+      <TextReveal>
       <motion.div
         variants={staggerContainer}
         initial="hidden"
@@ -61,6 +63,7 @@ export function Pricing(): React.JSX.Element {
           pricing when Pro launches.
         </motion.p>
       </motion.div>
+      </TextReveal>
 
       <div className="grid gap-5 md:grid-cols-2">
         <LeafCard index={0}>

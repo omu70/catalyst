@@ -9,6 +9,7 @@ import {
   useStackDeckProgress,
 } from "@/components/motion/StackDeck";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
+import { TextReveal } from "@/components/motion/TextReveal";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
 
 /* ============================================================================
@@ -62,6 +63,7 @@ export function EngineProcess(): React.JSX.Element {
       aria-labelledby="process-heading"
     >
       {/* Split-editorial section header — huge heading left, support right */}
+      <TextReveal>
       <motion.div
         variants={staggerContainer}
         initial="hidden"
@@ -91,6 +93,7 @@ export function EngineProcess(): React.JSX.Element {
           in ninety seconds.
         </motion.p>
       </motion.div>
+      </TextReveal>
 
       {/* The deck — cards pin and stack as the reader scrolls */}
       <div ref={ref}>
