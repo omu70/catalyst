@@ -15,8 +15,11 @@ the optional competitor layer).
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Same page (anon/publishable key) | Sign-in, history, outcomes |
 | `SUPABASE_SERVICE_ROLE_KEY` | Yes | Same page (service_role — keep secret) | Saving analyses |
 | `NEXT_PUBLIC_SITE_URL` | Yes | Your deployed URL (e.g. `https://catalyst-ten-zeta.vercel.app`) | Share images, sitemap |
-| `AI_PROVIDER` | Optional | Literal `gemini` (default) or `mock` (demo without a key) | Provider switch |
+| `AI_PROVIDER` | Optional | `gemini` (default), `openai-compat` (Groq/Mistral/Cerebras/OpenRouter free keys), or `mock` (demo without a key) | Provider switch |
 | `GEMINI_MODEL` | Optional | e.g. `gemini-2.5-flash-lite` for bigger free quota | Model choice |
+| `OPENAI_COMPAT_BASE_URL` | With openai-compat | e.g. `https://api.groq.com/openai/v1` or `https://api.mistral.ai/v1` | Alt-provider endpoint |
+| `OPENAI_COMPAT_API_KEY` | With openai-compat | console.groq.com / console.mistral.ai (free, no card) | Alt-provider auth |
+| `OPENAI_COMPAT_MODEL` | With openai-compat | e.g. `llama-3.3-70b-versatile` (Groq) or `mistral-large-latest` | Alt-provider model |
 | `META_AD_LIBRARY_TOKEN` | Optional | developers.facebook.com → app → Ad Library API access → Graph token (identity verification takes 1–2 weeks) | Competitive landscape section |
 
 **Local dev:** copy `.env.example` → `.env.local`, fill values, `npm run dev`.

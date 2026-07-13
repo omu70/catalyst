@@ -1,6 +1,7 @@
 import { AIProviderError, type AIProvider } from "@/lib/ai/types";
 import { GeminiProvider } from "@/lib/ai/providers/gemini";
 import { MockProvider } from "@/lib/ai/providers/mock";
+import { OpenAICompatibleProvider } from "@/lib/ai/providers/openai-compatible";
 
 /* ============================================================================
    Provider factory — the ONLY place that knows which vendors exist.
@@ -12,7 +13,7 @@ import { MockProvider } from "@/lib/ai/providers/mock";
    Adding OpenAI/Claude/Groq later = one adapter file + one case here.
    ========================================================================== */
 
-const PROVIDER_IDS = ["gemini", "mock"] as const;
+const PROVIDER_IDS = ["gemini", "mock", "openai-compat"] as const;
 type ProviderId = (typeof PROVIDER_IDS)[number];
 
 function resolveProviderId(): ProviderId {
@@ -47,6 +48,19 @@ export function getAIProvider(): AIProvider {
         );
       }
       cached = new GeminiProvider(apiKey, process.env.GEMINI_MODEL);
+      break;
+    }
+    case "openai-compat": {
+      const baseUrl = process.env.OPENAI_COMPAT_BASE_URL;
+      const apiKey = process.env.OPENAI_COMPAT_API_KEY;
+      const model = process.env.OPENAI_COMPAT_MODEL;
+      if (!baseUrl || !apiKey || !model) {
+        throw new AIProviderError(
+          "not_configured",
+          "AI_PROVIDER=openai-compat requires OPENAI_COMPAT_BASE_URL, OPENAI_COMPAT_API_KEY, and OPENAI_COMPAT_MODEL.",
+        );
+      }
+      cached = new OpenAICompatibleProvider(baseUrl, apiKey, model);
       break;
     }
   }
