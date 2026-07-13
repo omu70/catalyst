@@ -46,7 +46,7 @@ const FIELD = {
 const COLOR_DUST_DIM = new THREE.Color("#cfcfcc"); // paper dust — barely there
 const COLOR_DUST = new THREE.Color("#ababa7"); // neutral dust
 const COLOR_DATA = new THREE.Color("#7d7f83"); // graphite glint
-const COLOR_ACCENT = new THREE.Color("#2563eb"); // cobalt signal
+const COLOR_ACCENT = new THREE.Color("#0866ff"); // cobalt signal
 
 /**
  * Deterministic PRNG (mulberry32). Seeded so the atmosphere renders

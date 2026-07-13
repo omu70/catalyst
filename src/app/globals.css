@@ -48,10 +48,10 @@
 
   /* Accent · ELECTRIC COBALT — the pop (the 10%). Deepened for contrast
      on white; the dark scope brightens it back up. */
-  --color-accent: #2563eb;
-  --color-accent-bright: #3b82f6;
-  --color-accent-deep: #1d4ed8;
-  --color-accent-ghost: rgb(37 99 235 / 0.1);
+  --color-accent: #0866ff;
+  --color-accent-bright: #338cff;
+  --color-accent-deep: #0653cc;
+  --color-accent-ghost: rgb(8 102 255 / 0.1);
 
   /* Aura · VIOLET — ambient light inside dark surfaces only */
   --color-aura: #8b5cf6;
@@ -101,8 +101,8 @@
   /* --------------------------------------------------------------------
      DEPTH — shadow elevation on light (the dark scope flips to glow)
      -------------------------------------------------------------------- */
-  --shadow-glow-accent: 0 1px 2px rgb(29 78 216 / 0.35),
-    0 10px 28px -10px rgb(37 99 235 / 0.5);
+  --shadow-glow-accent: 0 1px 2px rgb(6 83 204 / 0.35),
+    0 10px 28px -10px rgb(8 102 255 / 0.5);
   --shadow-glow-data: 0 1px 2px rgb(85 88 93 / 0.25),
     0 10px 24px -10px rgb(85 88 93 / 0.35);
   --shadow-panel: 0 1px 0 0 rgb(255 255 255 / 0.9) inset,
@@ -140,10 +140,10 @@
   --color-glass-bright: rgb(255 255 255 / 0.07);
 
   /* Cobalt brightens on dark */
-  --color-accent: #3b82f6;
-  --color-accent-bright: #60a5fa;
-  --color-accent-deep: #5195f5;
-  --color-accent-ghost: rgb(59 130 246 / 0.12);
+  --color-accent: #338cff;
+  --color-accent-bright: #66a6ff;
+  --color-accent-deep: #66a6ff;
+  --color-accent-ghost: rgb(8 102 255 / 0.12);
   --color-data: #a6a8b0;
   --color-data-bright: #c7c9d1;
   --color-data-ghost: rgb(166 168 176 / 0.1);
@@ -151,8 +151,8 @@
   /* Glow elevation + inner light-catch */
   --shadow-panel: 0 1px 0 0 rgb(255 255 255 / 0.06) inset,
     0 -1px 0 0 rgb(0 0 0 / 0.4) inset, 0 24px 48px -24px rgb(0 0 0 / 0.8);
-  --shadow-glow-accent: 0 0 0 1px rgb(59 130 246 / 0.3),
-    0 8px 40px -8px rgb(59 130 246 / 0.45);
+  --shadow-glow-accent: 0 0 0 1px rgb(8 102 255 / 0.3),
+    0 8px 40px -8px rgb(8 102 255 / 0.45);
   --shadow-glow-data: 0 0 0 1px rgb(199 201 209 / 0.18),
     0 8px 32px -10px rgb(199 201 209 / 0.25);
 
@@ -273,7 +273,7 @@
    a whisper; inside .surface-dark the brighter accent reads as neon. */
 @utility text-lit-accent {
   color: var(--color-accent);
-  text-shadow: 0 1px 28px rgb(37 99 235 / 0.25);
+  text-shadow: 0 1px 28px rgb(8 102 255 / 0.25);
 }
 @utility text-lit-data {
   color: var(--color-ink);
@@ -316,6 +316,25 @@
   50% {
     transform: translate3d(3%, 0, 0) scaleX(1.08);
     opacity: 1;
+  }
+}
+
+/* Radar sweep: the 360° coverage scanner — pure rotation, GPU-composited */
+@keyframes radar-sweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-radar {
+  animation: radar-sweep 7s linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-radar {
+    animation: none;
   }
 }
 

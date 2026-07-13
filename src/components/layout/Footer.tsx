@@ -50,7 +50,17 @@ export function Footer(): React.JSX.Element {
         <p className="machine-label">
           © {new Date().getFullYear()} {SITE.name} · All rights reserved
         </p>
-        <p className="machine-label">Built for performance marketers</p>
+        <div className="flex items-center gap-5">
+          <Link href="/privacy" className="machine-label transition-colors hover:text-ink-secondary">
+            Privacy
+          </Link>
+          <Link href="/terms" className="machine-label transition-colors hover:text-ink-secondary">
+            Terms
+          </Link>
+          <p className="machine-label hidden sm:block">
+            Built for performance marketers
+          </p>
+        </div>
       </div>
       </div>
     </footer>

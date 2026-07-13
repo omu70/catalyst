@@ -52,6 +52,12 @@ export const UNIVERSE_JSON_CONTRACT = `Return a single JSON object with EXACTLY 
     "dominantAwarenessStage": one of ${JSON.stringify([...AWARENESS_STAGES])},
     "awarenessRationale": string (10-500 chars)
   },
+  "competitorInsights": OPTIONAL — include ONLY when a COMPETITOR AD DATA section is provided:
+    {
+      "landscape": string (20-800 chars, one-paragraph read of the category's current creative),
+      "commonPatterns": [1-6 strings — saturated approaches most competitors run],
+      "exploitableGaps": [1-6 strings — approaches conspicuously absent from the category]
+    },
   "angles": [6 to 12 hypothesis objects, each:
     {
       "title": string (3-120 chars),

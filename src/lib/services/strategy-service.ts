@@ -2,6 +2,11 @@ import { getAIProvider } from "@/lib/ai";
 import { AIProviderError } from "@/lib/ai/types";
 import { fetchStoreIntel, renderStoreIntel } from "@/lib/services/store-intel";
 import {
+  deriveSearchTerm,
+  fetchCompetitorIntel,
+  renderCompetitorIntel,
+} from "@/lib/services/competitor-intel";
+import {
   STRATEGIST_SYSTEM_PROMPT,
   buildStrategistPrompt,
 } from "@/lib/prompts/creative-strategist";
@@ -33,14 +38,29 @@ export async function generateCreativeUniverse(
 ): Promise<CreativeUniverse> {
   const provider = getAIProvider();
 
-  // Enrichment: read the actual storefront when a URL is given (non-fatal).
-  let storeSection: string | undefined;
-  if (input.shopifyUrl) {
-    const intel = await fetchStoreIntel(input.shopifyUrl);
-    if (intel) storeSection = renderStoreIntel(intel);
-  }
+  // Enrichment — both sources fetched concurrently, both non-fatal:
+  //   1. The brand's own storefront (products.json)
+  //   2. Live competitor ads (Meta Ad Library, when token configured)
+  const storePromise = input.shopifyUrl
+    ? fetchStoreIntel(input.shopifyUrl)
+    : Promise.resolve(null);
 
-  const prompt = buildStrategistPrompt(input, storeSection);
+  const storeIntel = await storePromise;
+  const searchTerm = deriveSearchTerm(
+    input.productDetails,
+    storeIntel?.products[0]?.productType,
+  );
+  const competitorIntel = await fetchCompetitorIntel(searchTerm);
+
+  const sections = [
+    storeIntel ? renderStoreIntel(storeIntel) : null,
+    competitorIntel ? renderCompetitorIntel(competitorIntel) : null,
+  ].filter((s): s is string => s !== null);
+
+  const prompt = buildStrategistPrompt(
+    input,
+    sections.length > 0 ? sections.join("\n\n") : undefined,
+  );
 
   const controller = new AbortController();
   const deadline = setTimeout(() => controller.abort(), GENERATION_TIMEOUT_MS);

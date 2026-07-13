@@ -22,7 +22,7 @@ interface SpotlightCardProps {
 }
 
 const TINTS: Record<NonNullable<SpotlightCardProps["tint"]>, string> = {
-  accent: "rgb(59 130 246 / 0.14)",
+  accent: "rgb(8 102 255 / 0.14)",
   aura: "rgb(139 92 246 / 0.13)",
 };
 

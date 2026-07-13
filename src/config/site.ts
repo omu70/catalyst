@@ -8,7 +8,9 @@ export const SITE = {
   tagline: "The Creative Intelligence Platform",
   description:
     "Paste your product and audience. Catalyst maps every angle you could run, flags the gaps your competitors miss, and hands your buyer a four-week test plan — before you brief a single creator.",
-  url: "https://catalyst.app",
+  /** Canonical origin for OG images, sitemap, robots. Set NEXT_PUBLIC_SITE_URL
+      in env when the domain changes — falls back to the Vercel deployment. */
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://catalyst-ten-zeta.vercel.app",
 } as const;
 
 export interface NavLink {
@@ -17,7 +19,9 @@ export interface NavLink {
 }
 
 export const NAV_LINKS: readonly NavLink[] = [
+  { label: "What it does", href: "/#what" },
   { label: "Methodology", href: "/#process" },
+  { label: "Pricing", href: "/#pricing" },
   { label: "Analyze", href: "/analyze" },
   { label: "History", href: "/history" },
 ] as const;

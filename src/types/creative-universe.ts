@@ -134,9 +134,25 @@ export const RoadmapWeekSchema = z.object({
 });
 export type RoadmapWeek = z.infer<typeof RoadmapWeekSchema>;
 
+/**
+ * Competitor insights — present only when live Ad Library data was fed to
+ * the engine. OPTIONAL so analyses generated without the Meta token (and
+ * all previously saved analyses) remain schema-valid.
+ */
+export const CompetitorInsightsSchema = z.object({
+  /** One-paragraph read of the competitive creative landscape. */
+  landscape: z.string().min(20).max(800),
+  /** Patterns most competitors currently run (saturated territory). */
+  commonPatterns: z.array(z.string().min(5).max(300)).min(1).max(6),
+  /** Approaches conspicuously absent — the exploitable openings. */
+  exploitableGaps: z.array(z.string().min(5).max(300)).min(1).max(6),
+});
+export type CompetitorInsights = z.infer<typeof CompetitorInsightsSchema>;
+
 /** The full Creative Universe payload. */
 export const CreativeUniverseSchema = z.object({
   productUnderstanding: ProductUnderstandingSchema,
+  competitorInsights: CompetitorInsightsSchema.optional(),
   /** 6–12 angles: enough to map coverage, few enough to act on. */
   angles: z.array(CreativeAngleSchema).min(6).max(12),
   /** Angles the account is missing — the Creative Matrix "gaps". */

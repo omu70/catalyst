@@ -13,6 +13,7 @@ import { InputEngine } from "@/components/dashboard/InputEngine";
 import { EngineStatus } from "@/components/dashboard/EngineStatus";
 import { ErrorPanel } from "@/components/dashboard/ErrorPanel";
 import { UnderstandingCards } from "@/components/dashboard/UnderstandingCards";
+import { CompetitorInsights } from "@/components/dashboard/CompetitorInsights";
 import { CreativeMatrix } from "@/components/dashboard/CreativeMatrix";
 import { AngleCards } from "@/components/dashboard/AngleCards";
 import { TestingRoadmap } from "@/components/dashboard/TestingRoadmap";
@@ -131,6 +132,11 @@ export function AnalyzeView({
               <Parallax speed={0.2}>
                 <CreativeMatrix universe={universe} />
               </Parallax>
+              {universe.competitorInsights && (
+                <Parallax speed={0.12}>
+                  <CompetitorInsights insights={universe.competitorInsights} />
+                </Parallax>
+              )}
               <Parallax speed={0.12}>
                 <AngleCards universe={universe} />
               </Parallax>

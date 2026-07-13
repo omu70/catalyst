@@ -20,8 +20,9 @@ import { StrategyConsole } from "@/components/marketing/StrategyConsole";
 export function ProductFrame(): React.JSX.Element {
   return (
     <section
+      id="sample"
       aria-label="Catalyst strategy console preview"
-      className="relative z-10 mx-auto w-[min(1180px,calc(100%-2rem))] pb-28"
+      className="relative z-10 mx-auto w-[min(1180px,calc(100%-2rem))] scroll-mt-28 pb-28"
     >
       <Parallax speed={-0.08}>
         <motion.div
