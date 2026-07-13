@@ -6,6 +6,7 @@ import { Check, Copy } from "lucide-react";
 
 import type { CreativeUniverse } from "@/types/creative-universe";
 import {
+  FORMAT_DIRECTIONS,
   FORMAT_LABELS,
   PRIORITY_STYLES,
   STAGE_LABELS,
@@ -93,7 +94,7 @@ export function AngleCards({
       aria-labelledby="angles-heading"
     >
       <motion.h2 variants={riseItem} id="angles-heading" className="machine-label mb-6">
-        03 · Creative hypotheses — falsifiable, prioritized, shootable
+        04 · Creative hypotheses — falsifiable, prioritized, shootable
       </motion.h2>
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -118,6 +119,19 @@ export function AngleCards({
               </div>
             </div>
 
+            {/* Identity chips FIRST — what kind of angle this is, at a glance */}
+            <div className="mb-3 flex flex-wrap gap-1.5">
+              <span className="rounded-full bg-accent-ghost px-2.5 py-1 font-mono text-[10px] tracking-[0.08em] text-accent-deep uppercase">
+                {STAGE_LABELS[angle.awarenessStage]}
+              </span>
+              <span className="rounded-full border border-line px-2.5 py-1 font-mono text-[10px] tracking-[0.08em] text-ink-secondary uppercase">
+                {FORMAT_LABELS[angle.format]}
+              </span>
+              <span className="rounded-full border border-line px-2.5 py-1 font-mono text-[10px] tracking-[0.08em] text-ink-tertiary uppercase">
+                {angle.emotion}
+              </span>
+            </div>
+
             <h3 className="text-[17px] leading-snug font-semibold text-ink">
               {angle.title}
             </h3>
@@ -135,23 +149,18 @@ export function AngleCards({
               “{angle.hook}”
             </blockquote>
 
+            {/* What physically gets produced */}
+            <p className="mt-3 text-[13px] leading-relaxed font-medium text-ink-secondary">
+              <span className="machine-label mr-1.5">Shoot</span>
+              {FORMAT_DIRECTIONS[angle.format]}
+            </p>
+
             {/* The kill-metric — how this hypothesis gets proven or killed */}
             <p className="mt-3 rounded-xl bg-void px-3.5 py-2.5 font-mono text-xs leading-relaxed text-ink-secondary">
               Confirm if: {angle.prediction}
             </p>
 
-            {/* Shoot metadata */}
-            <div className="mt-auto flex flex-wrap gap-x-4 gap-y-1.5 pt-5">
-              {[
-                STAGE_LABELS[angle.awarenessStage],
-                FORMAT_LABELS[angle.format],
-                angle.emotion,
-              ].map((meta) => (
-                <span key={meta} className="machine-label">
-                  {meta}
-                </span>
-              ))}
-            </div>
+            <div className="mt-auto" />
 
             {/* Learning loop — mark what actually happened */}
             <OutcomeTracker hypothesisTitle={angle.title} />

@@ -85,7 +85,7 @@ export function CreativeMatrix({
     >
       <motion.div variants={riseItem} className="mb-6 flex flex-wrap items-end justify-between gap-3">
         <h2 id="matrix-heading" className="machine-label">
-          02 · Creative matrix — coverage by awareness stage
+          03 · Creative matrix — coverage by awareness stage
         </h2>
         {/* Coverage score is COMPUTED from the map, never model-invented */}
         <p className="font-mono text-xs text-ink-tertiary">

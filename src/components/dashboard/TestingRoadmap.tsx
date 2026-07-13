@@ -31,7 +31,7 @@ export function TestingRoadmap({
       aria-labelledby="roadmap-heading"
     >
       <motion.h2 variants={riseItem} id="roadmap-heading" className="machine-label mb-6">
-        04 · The 4-week testing roadmap — learnings compound weekly
+        05 · The 4-week testing roadmap — learnings compound weekly
       </motion.h2>
 
       <div className="relative grid gap-5 md:grid-cols-2 xl:grid-cols-4">
