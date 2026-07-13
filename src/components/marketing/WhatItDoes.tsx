@@ -12,7 +12,11 @@ import {
 } from "lucide-react";
 
 import { LeafCard } from "@/components/motion/LeafCard";
+import { Parallax } from "@/components/motion/Parallax";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
+
+/** Alternating parallax depths — outer columns drift, center holds. */
+const COLUMN_SPEEDS = [0.24, 0.05, 0.24] as const;
 
 /* ============================================================================
    <WhatItDoes /> — the plainest possible explanation of the product.
@@ -101,7 +105,8 @@ export function WhatItDoes(): React.JSX.Element {
       <div className="grid gap-4 lg:grid-cols-[1fr_auto_1fr_auto_1fr] lg:items-stretch">
         {FLOW.map((step, i) => (
           <>
-            <LeafCard key={step.eyebrow} index={i}>
+            <Parallax key={step.eyebrow} speed={COLUMN_SPEEDS[i] ?? 0.1}>
+            <LeafCard index={i} className="h-full">
               <div className="glass-panel h-full rounded-[--radius-panel] p-7">
                 <p className="machine-label">{step.eyebrow}</p>
                 <h3 className="mt-2 text-title font-semibold text-ink">
@@ -117,6 +122,7 @@ export function WhatItDoes(): React.JSX.Element {
                 </ul>
               </div>
             </LeafCard>
+            </Parallax>
             {i < FLOW.length - 1 && (
               <div
                 key={`arrow-${step.eyebrow}`}

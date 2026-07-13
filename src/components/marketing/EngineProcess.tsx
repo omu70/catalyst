@@ -3,26 +3,29 @@
 import { motion } from "framer-motion";
 import { Layers, Map, Rocket } from "lucide-react";
 
-import { Parallax } from "@/components/motion/Parallax";
-import { LeafCard } from "@/components/motion/LeafCard";
+import {
+  StackDeck,
+  StackDeckCard,
+  useStackDeckProgress,
+} from "@/components/motion/StackDeck";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
 
 /* ============================================================================
-   <EngineProcess /> — how the engine thinks, in three moves.
+   <EngineProcess /> — how the engine thinks, dealt as a card deck.
 
-   Content strategy: each step is written as an OUTCOME the buyer keeps,
-   not a feature description. Cards ride different parallax speeds so the
-   section has physical depth while scrolling.
+   The three moves arrive as full-width cards that pin near the top of the
+   viewport and stack on top of one another as the reader scrolls — the
+   Editions-style set piece of the page. Covered cards recede in scale and
+   brightness so the deck reads as physically layered.
    ========================================================================== */
 
 interface ProcessStep {
   index: string;
   title: string;
   body: string;
+  outcome: string;
   icon: typeof Layers;
-  /** Parallax speed — alternating depths. */
-  speed: number;
 }
 
 const STEPS: readonly ProcessStep[] = [
@@ -30,26 +33,28 @@ const STEPS: readonly ProcessStep[] = [
     index: "01",
     title: "Decode the customer",
     body: "The engine extracts the jobs your customers actually hire you for — the pains they'd pay to end and the outcomes they brag about — then pinpoints where they sit on the awareness curve. You stop guessing what to say; you know what they already believe.",
+    outcome: "Customer psychology, mapped",
     icon: Layers,
-    speed: 0.28,
   },
   {
     index: "02",
     title: "Map the universe",
     body: "Every viable angle gets plotted across awareness stages, emotions, and formats — scored by expected performance and information gain. Covered territory, contested territory, and the gaps nobody in your category is running. Your whole creative landscape on one screen.",
+    outcome: "Every angle, scored",
     icon: Map,
-    speed: 0.12,
   },
   {
     index: "03",
     title: "Run the roadmap",
     body: "Four weeks, sequenced so every test funds the next decision: baselines in week one, expansion in two, iteration in three, scale in four. Each week ships with named angles, verbatim hooks, and the metric that defines done. Monday morning, your buyer just executes.",
+    outcome: "A month of tests, decided",
     icon: Rocket,
-    speed: 0.28,
   },
 ];
 
 export function EngineProcess(): React.JSX.Element {
+  const { ref, progress } = useStackDeckProgress();
+
   return (
     <section
       id="process"
@@ -87,28 +92,50 @@ export function EngineProcess(): React.JSX.Element {
         </motion.p>
       </motion.div>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        {STEPS.map((step, i) => (
-          <Parallax key={step.index} speed={step.speed}>
-            <LeafCard index={i}>
+      {/* The deck — cards pin and stack as the reader scrolls */}
+      <div ref={ref}>
+        <StackDeck>
+          {STEPS.map((step, i) => (
+            <StackDeckCard
+              key={step.index}
+              index={i}
+              total={STEPS.length}
+              progress={progress}
+            >
               <SpotlightCard
                 tint="accent"
-                className="glass-panel flex h-full flex-col rounded-[--radius-panel] p-7"
+                // Opaque surface — stacked cards must fully cover the one
+                // beneath, so no glass translucency here.
+                className="rounded-[--radius-panel] border border-line bg-vault p-8 shadow-[0_32px_80px_-32px_rgb(17_18_19/0.28)] sm:p-10"
               >
-                <div className="mb-5 flex items-center justify-between">
-                  <span className="flex size-10 items-center justify-center rounded-xl bg-accent-ghost">
-                    <step.icon className="size-4.5 text-accent-deep" strokeWidth={2.25} />
-                  </span>
-                  <span className="font-mono text-xs text-data">{step.index}</span>
+                <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+                  {/* Left rail: number, icon, outcome */}
+                  <div className="flex items-start justify-between gap-6 lg:col-span-4 lg:flex-col lg:justify-start">
+                    <span className="font-mono text-[64px] leading-none font-medium tracking-tight text-accent sm:text-[80px]">
+                      {step.index}
+                    </span>
+                    <div className="flex flex-col items-end gap-3 lg:items-start">
+                      <span className="flex size-11 items-center justify-center rounded-xl bg-accent-ghost">
+                        <step.icon className="size-5 text-accent-deep" strokeWidth={2.25} />
+                      </span>
+                      <span className="machine-label">{step.outcome}</span>
+                    </div>
+                  </div>
+
+                  {/* Right: the substance */}
+                  <div className="lg:col-span-7 lg:col-start-6">
+                    <h3 className="text-[26px] leading-snug font-semibold tracking-tight text-ink sm:text-[30px]">
+                      {step.title}
+                    </h3>
+                    <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-ink-secondary sm:text-[17px]">
+                      {step.body}
+                    </p>
+                  </div>
                 </div>
-                <h3 className="text-title font-semibold text-ink">{step.title}</h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-ink-secondary">
-                  {step.body}
-                </p>
               </SpotlightCard>
-            </LeafCard>
-          </Parallax>
-        ))}
+            </StackDeckCard>
+          ))}
+        </StackDeck>
       </div>
     </section>
   );

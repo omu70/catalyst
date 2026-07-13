@@ -46,9 +46,9 @@ export function Hero(): React.JSX.Element {
     target: sectionRef,
     offset: ["start start", "end start"],
   });
-  const heroOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.3]);
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.97]);
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, -40]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, -120]);
 
   /* Masked line reveal (see Phase 1 notes) — h1 hidden until split. */
   useGSAP(

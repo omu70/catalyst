@@ -22,10 +22,12 @@ import { cn } from "@/lib/utils/cn";
    progress (no scroll listeners of our own). Reduced motion renders flat.
    ========================================================================== */
 
-/** Tilt at entry, in degrees — enough to read as a turning leaf. */
-const LEAF_TILT_DEG = 18;
+/** Tilt at entry, in degrees — a clearly visible page-turn. */
+const LEAF_TILT_DEG = 34;
 /** Rise distance in px while turning flat — the upward stack motion. */
-const LEAF_RISE_PX = 72;
+const LEAF_RISE_PX = 120;
+/** Cards start slightly small and grow flat — sells the depth. */
+const LEAF_SCALE_FROM = 0.92;
 
 interface LeafCardProps {
   children: ReactNode;
@@ -45,14 +47,16 @@ export function LeafCard({
   const { scrollYProgress } = useScroll({
     target: ref,
     // Start turning when the card's top enters the viewport bottom;
-    // finish just past the lower third. Small per-index offset staggers
+    // finish near the vertical center, so the turn plays across a long,
+    // clearly visible stretch of scroll. Small per-index offset staggers
     // columns without JS timers.
-    offset: ["start end", `start ${0.72 - Math.min(index, 3) * 0.04}`],
+    offset: ["start end", `start ${0.45 - Math.min(index, 3) * 0.04}`],
   });
 
   const rotateX = useTransform(scrollYProgress, [0, 1], [-LEAF_TILT_DEG, 0]);
   const y = useTransform(scrollYProgress, [0, 1], [LEAF_RISE_PX, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 0.6, 1], [0, 0.85, 1]);
+  const scale = useTransform(scrollYProgress, [0, 1], [LEAF_SCALE_FROM, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.9, 1]);
 
   if (prefersReducedMotion) {
     return (
@@ -68,6 +72,7 @@ export function LeafCard({
         style={{
           rotateX,
           y,
+          scale,
           opacity,
           transformOrigin: "top center",
           transformStyle: "preserve-3d",

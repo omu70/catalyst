@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { Navbar } from "@/components/layout/Navbar";
 import { ChapterIndex } from "@/components/layout/ChapterIndex";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/marketing/Hero";
 import { ProductFrame } from "@/components/marketing/ProductFrame";
@@ -27,6 +28,7 @@ export const metadata: Metadata = {
 export default function LandingPage(): React.JSX.Element {
   return (
     <main>
+      <ScrollProgress />
       <Navbar />
       <ChapterIndex />
       <Hero />

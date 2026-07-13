@@ -1,8 +1,15 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 
 import { STAGE_LABELS, STAGE_ORDER } from "@/config/universe-ui";
+import { Parallax } from "@/components/motion/Parallax";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
 
 /* ============================================================================
@@ -47,8 +54,23 @@ function polar(angleDeg: number, radius: number): { x: number; y: number } {
 }
 
 export function CoverageRadar(): React.JSX.Element {
+  const sectionRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  // The whole compass dial turns with the reader's scroll — the section
+  // physically responds to the page; the sweep beam keeps it alive at rest.
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const dialRotate = useTransform(scrollYProgress, [0, 1], [-70, 25]);
+  const dialScale = useTransform(scrollYProgress, [0, 0.35], [0.85, 1], {
+    clamp: true,
+  });
+
   return (
     <section
+      ref={sectionRef}
       aria-labelledby="coverage-heading"
       className="relative z-10 mx-auto w-[min(1180px,calc(100%-2rem))] pb-28"
     >
@@ -59,8 +81,8 @@ export function CoverageRadar(): React.JSX.Element {
         viewport={{ once: true, margin: "-100px" }}
         className="grid items-center gap-12 lg:grid-cols-12"
       >
-        {/* ————— Copy ————— */}
-        <div className="lg:col-span-5">
+        {/* ————— Copy — drifts on its own parallax layer ————— */}
+        <Parallax speed={0.18} className="lg:col-span-5">
           <motion.p variants={riseItem} className="machine-label mb-4">
             Full-circle coverage
           </motion.p>
@@ -93,11 +115,14 @@ export function CoverageRadar(): React.JSX.Element {
               </li>
             ))}
           </motion.ul>
-        </div>
+        </Parallax>
 
-        {/* ————— The radar ————— */}
+        {/* ————— The radar — the dial turns as the reader scrolls ————— */}
         <motion.div variants={riseItem} className="lg:col-span-7">
-          <div className="relative mx-auto aspect-square w-full max-w-[520px]">
+          <motion.div
+            style={prefersReducedMotion ? undefined : { scale: dialScale }}
+            className="relative mx-auto aspect-square w-full max-w-[520px]"
+          >
             {/* Sweep beam — conic gradient wedge, pure GPU rotation */}
             <div
               aria-hidden
@@ -128,6 +153,19 @@ export function CoverageRadar(): React.JSX.Element {
                 />
               ))}
 
+              {/* Scroll-rotating group: ticks + hypothesis dots turn with
+                  the page while spokes, labels, and core stay upright. */}
+              <motion.g
+                style={
+                  prefersReducedMotion
+                    ? undefined
+                    : {
+                        rotate: dialRotate,
+                        transformOrigin: "center",
+                        transformBox: "fill-box",
+                      }
+                }
+              >
               {/* 36 bearing ticks — the "every degree" texture */}
               {Array.from({ length: 36 }, (_, i) => {
                 const a = i * 10;
@@ -145,6 +183,7 @@ export function CoverageRadar(): React.JSX.Element {
                   />
                 );
               })}
+              </motion.g>
 
               {/* Stage spokes + labels at the five compass points */}
               {STAGE_ORDER.map((stage, i) => {
@@ -174,7 +213,19 @@ export function CoverageRadar(): React.JSX.Element {
                 );
               })}
 
-              {/* Hypothesis dots — plotted around the full circle */}
+              {/* Hypothesis dots — plotted around the full circle; the
+                  constellation rotates with scroll like a scanning sweep */}
+              <motion.g
+                style={
+                  prefersReducedMotion
+                    ? undefined
+                    : {
+                        rotate: dialRotate,
+                        transformOrigin: "center",
+                        transformBox: "fill-box",
+                      }
+                }
+              >
               {DOTS.map(({ angle, radius, hot }) => {
                 const p = polar(angle, OUTER_R * radius);
                 return (
@@ -196,6 +247,7 @@ export function CoverageRadar(): React.JSX.Element {
                   </g>
                 );
               })}
+              </motion.g>
 
               {/* Core */}
               <circle cx={CENTER} cy={CENTER} r={30} fill="var(--color-vault)" stroke="var(--color-line)" />
@@ -216,7 +268,7 @@ export function CoverageRadar(): React.JSX.Element {
                 covered
               </text>
             </svg>
-          </div>
+          </motion.div>
         </motion.div>
       </motion.div>
     </section>

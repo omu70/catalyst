@@ -21,8 +21,8 @@ import {
    Accessibility: renders static under prefers-reduced-motion.
    ========================================================================== */
 
-/** Max translation in px at speed = 1. */
-const PARALLAX_RANGE_PX = 96;
+/** Max translation in px at speed = 1 — large enough to read at a glance. */
+const PARALLAX_RANGE_PX = 220;
 
 interface ParallaxProps {
   children: ReactNode;

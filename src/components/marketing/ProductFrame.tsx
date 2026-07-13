@@ -1,35 +1,69 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 
 import { HERO_METRICS } from "@/config/site";
 import { riseItem, staggerContainer } from "@/lib/motion/variants";
-import { Parallax } from "@/components/motion/Parallax";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { StrategyConsole } from "@/components/marketing/StrategyConsole";
 
 /* ============================================================================
    <ProductFrame /> — the full-width cinematic product shot.
 
-   The reference pattern (FoF dashboard, ElevenLabs media frame): a light
-   editorial page opens into one wide, dark, rounded frame where the product
-   lives. `.surface-dark` re-themes every token inside — the same
-   StrategyConsole renders light in no scope and cinematic here.
+   The frame arrives like a screen being raised toward the reader: it starts
+   tilted back in 3D (rotateX), small, and low — and straightens, grows, and
+   lands as the reader scrolls it into place. Fully scroll-scrubbed, so the
+   motion is reversible and physically attached to the page.
+
+   `.surface-dark` re-themes every token inside — the same StrategyConsole
+   renders light in no scope and cinematic here.
    ========================================================================== */
 
+/** Entry tilt in degrees — a clearly visible "screen laying back". */
+const FRAME_TILT_DEG = 24;
+
 export function ProductFrame(): React.JSX.Element {
+  const ref = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    // Scrub from "top of frame enters viewport bottom" to "frame reaches
+    // the upper third" — a long, unmistakable travel.
+    offset: ["start end", "start 0.28"],
+  });
+
+  const rotateX = useTransform(scrollYProgress, [0, 1], [FRAME_TILT_DEG, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.9, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], [140, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.4, 1], [0, 0.9, 1]);
+
   return (
     <section
       id="sample"
       aria-label="Catalyst strategy console preview"
       className="relative z-10 mx-auto w-[min(1180px,calc(100%-2rem))] scroll-mt-28 pb-28"
     >
-      <Parallax speed={-0.08}>
+      <div ref={ref} className="[perspective:1400px]">
         <motion.div
-          initial={{ opacity: 0, y: 48, scale: 0.985 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ type: "spring", stiffness: 140, damping: 26, mass: 1 }}
+          style={
+            prefersReducedMotion
+              ? undefined
+              : {
+                  rotateX,
+                  scale,
+                  y,
+                  opacity,
+                  transformOrigin: "center bottom",
+                  transformStyle: "preserve-3d",
+                }
+          }
           className="surface-dark overflow-hidden rounded-[2rem] border border-line bg-abyss p-2 shadow-[0_48px_120px_-48px_rgb(0_0_0/0.9)]"
         >
           {/* Inner atmosphere — ambient blue + violet light behind the console */}
@@ -97,7 +131,7 @@ export function ProductFrame(): React.JSX.Element {
             </motion.div>
           </div>
         </motion.div>
-      </Parallax>
+      </div>
     </section>
   );
 }
