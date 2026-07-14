@@ -142,6 +142,8 @@ export type RoadmapWeek = z.infer<typeof RoadmapWeekSchema>;
 export const CompetitorInsightsSchema = z.object({
   /** One-paragraph read of the competitive creative landscape. */
   landscape: z.string().min(20).max(800),
+  /** Named brands the buyer actually cross-shops (verifiable, never invented). */
+  likelyCompetitors: z.array(z.string().min(2).max(80)).max(8).optional(),
   /** Patterns most competitors currently run (saturated territory). */
   commonPatterns: z.array(z.string().min(5).max(300)).min(1).max(6),
   /** Approaches conspicuously absent — the exploitable openings. */

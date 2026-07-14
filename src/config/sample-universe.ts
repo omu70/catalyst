@@ -46,6 +46,21 @@ export const SAMPLE_UNIVERSE: CreativeUniverse = {
     awarenessRationale:
       "The audience already distrusts nonstick coatings (problem-aware) but most haven't researched ceramic-coated stainless as the specific solution — the gap between fear and solution is where spend converts cheapest.",
   },
+  competitorInsights: {
+    landscape:
+      "Category read (verify in Ad Library): premium cookware ads are dominated by kitchen-porn beauty shots and celebrity-chef endorsements. Everyone claims 'non-toxic'; almost nobody proves it. The proof territory - lab reports, microscope shots, flake tests - is nearly empty.",
+    likelyCompetitors: ["HexClad", "Caraway", "Our Place", "Made In Cookware"],
+    commonPatterns: [
+      "Glossy lifestyle kitchens with soft music and no product stress-testing",
+      "Celebrity and chef endorsements standing in for evidence",
+      "'Non-toxic' claimed in text overlays with zero proof shown",
+    ],
+    exploitableGaps: [
+      "Destructive testing on camera - nobody shows a competitor pan failing",
+      "Price-per-year math against the replacement cycle of cheap pans",
+      "Unedited third-party lab results as the entire creative",
+    ],
+  },
   angles: [
     {
       title: "The flake test",

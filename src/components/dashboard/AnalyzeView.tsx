@@ -18,6 +18,7 @@ import { CommandBrief } from "@/components/dashboard/CommandBrief";
 import { MarketRead } from "@/components/dashboard/MarketRead";
 import { CompetitorInsights } from "@/components/dashboard/CompetitorInsights";
 import { AngleExplorer } from "@/components/dashboard/AngleExplorer";
+import { TestingQuadrant } from "@/components/dashboard/TestingQuadrant";
 import { CreativeMatrix } from "@/components/dashboard/CreativeMatrix";
 import { TestingRoadmap } from "@/components/dashboard/TestingRoadmap";
 
@@ -143,6 +144,7 @@ export function AnalyzeView({
             <div className="flex flex-col gap-20">
               <CommandBrief universe={universe} />
               <StartHere universe={universe} />
+              <TestingQuadrant universe={universe} />
               <Parallax speed={0.12}>
                 <UnderstandingCards understanding={universe.productUnderstanding} />
               </Parallax>
@@ -152,11 +154,11 @@ export function AnalyzeView({
               <Parallax speed={0.2}>
                 <CreativeMatrix universe={universe} />
               </Parallax>
-              {universe.competitorInsights && (
+              {universe.competitorInsights ? (
                 <Parallax speed={0.12}>
                   <CompetitorInsights insights={universe.competitorInsights} />
                 </Parallax>
-              )}
+              ) : null}
               <AngleExplorer universe={universe} />
               <Parallax speed={0.2}>
                 <TestingRoadmap universe={universe} />
